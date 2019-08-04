@@ -1,0 +1,5 @@
+#archive directory
+_noctp/
+
+#dependency directories
+node_modules/
