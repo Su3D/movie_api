@@ -49,11 +49,47 @@
       <td>JSON object holding data about all the movies</td>
     </tr>
     <tr>
-      <td>Return data (description, genre, director, image URL, whether it's featured or not) about a single movie by title to the user</td>
-      <td>/movies/[title]</td>
+      <td>Return data (description, year, rating, genre, director, image URL, whether it's featured or not) about a single movie by title to the user</td>
+      <td>/movies/[Title]</td>
       <td>GET</td>
       <td>none</td>
-      <td>JSON object holding data about a single movie: description, genre, director, image URL, featured (y/n?) properties</td>
+      <td style="vertical-align:top;">JSON object holding data about a single movie: title, description, year, rating, genre, director, image URL, featured (y/n?):<br>
+        {<br>
+            "Director": {<br>
+                "Name": "Rob Marshall",<br>
+                "Bio": "Rob Marshall grew up in the Squirrel Hill neighborhood of Pittsburgh, Pennsylvania. His father, Robert D. Marshall, was a professor and, later, a dean at the University of Pittsburgh. Marshall graduated from Taylor Allderdice High School and the Carnegie Mellon School of Drama. He is the brother of a twin sister, Maura, an interior decorator, and a younger sister, choreographer Kathleen Marshall.",<br>
+                "Birth": "1960"<br>
+            },<br>
+            "Rating": ["5d5b35c837b65ba641756cf6"],<br>
+            "Genre": ["5d5b10f037b65ba641756cf3"],<br>
+            "_id": "5d5b3ba737b65ba641756cfc",<br>
+            "Title": "Chicago",<br>
+            "Year": "2002",<br>
+            "Description": "Two death-row murderesses develop a fierce rivalry while competing for publicity, celebrity, and a sleazy lawyer\"s attention.",<br>
+            "ImagePath": "https://m.media-amazon.com/images/M/...TU@._V1_SY1000_CR0,0,677,1000_AL_.jpg",<br>
+            "Featured": false<br>
+        }
+      </td>
+    </tr>
+    <tr>
+      <td>Return a list of ALL ratings to the user</td>
+      <td>/ratings</td>
+      <td>GET</td>
+      <td>none</td>
+      <td>JSON object holding data about all the ratings</td>
+    </tr>
+    <tr>
+      <td>Return data about a rating (description) by name/type (e.g., "PG-13")</td>
+      <td>/ratings/[Type]</td>
+      <td>GET</td>
+      <td>none</td>
+      <td style="vertical-align:top;">JSON object holding data about the rating: name/type, description:<br>
+        {<br>
+            "_id": "5d5b35aa37b65ba641756cf4",<br>
+            "Type": "G",<br>
+            "Description": "General Audiences: All ages admitted. Nothing that would offend parents for viewing by children."<br>
+        }
+      </td>
     </tr>
     <tr>
       <td>Return a list of ALL genres to the user</td>
@@ -63,78 +99,139 @@
       <td>JSON object holding data about all the genres</td>
     </tr>
     <tr>
-      <td>Return data about a genre (description) by name/title (e.g., "Thriller")</td>
+      <td>Return data about a genre (description) by name/type (e.g., "Drama")</td>
       <td>/genres/[type]</td>
       <td>GET</td>
       <td>none</td>
-      <td>JSON object holding data about the genre: name/title, description </td>
+      <td style="vertical-align:top;">JSON object holding data about the genre: name/type, description:<br>
+        {<br>
+            "_id": "5d5b10ca37b65ba641756cf0",<br>
+            "Type": "Fantasy",<br>
+            "Description": "Fantasy films are films with fantastic themes, usually involving magic, supernatural events, incredible creatures, or exotic fantasy worlds. (wikipedia)"<br>
+        }
+      </td>
     </tr>
-    <tr>
+    <!--<tr>
       <td>Return a list of ALL directors to the user</td>
       <td>/directors </td>
       <td>GET</td>
       <td>none</td>
       <td>JSON object holding data about all the directors</td>
-    </tr>
+    </tr>-->
     <tr>
       <td>Return data about a director (bio, birth year, death year) by name</td>
-      <td>/directors/[name]</td>
+      <td>/movies/directors/[Name]</td>
       <td>GET</td>
       <td>none</td>
-      <td>JSON object holding data about the director: bio, birth year, death year</td>
+      <td style="vertical-align:top;">JSON object holding data about the director: bio, birth year, death year:<br>
+        {<br>
+            "Name": "Joe Wright",<br>
+            "Bio": "Joe Wright is an English film director who has always had an interest in the arts, especially painting. He would also make films on his Super 8 camera as well as spend time in the evenings acting in a drama club.",
+            "Birth": "1972"<br>
+        }
+      </td>
     </tr>
     <tr>
       <td>Allow new users to register</td>
       <td>/users</td>
       <td>POST</td>
-      <td>JSON object holding data about the user to add:<br>
+      <td style="vertical-align:top;">JSON object holding data about the user to add:<br>
         {<br>
-          username : "BellaBean",<br>
-          email : "bella@bella.com",<br>
-          password : "bellapwd",<br>
-          dob : "08-07-2006"<br>
+          Username : String,<br>
+          Password : String,<br>
+          Email : String,<br>
+          Birthday : Date<br>
         }
       </td>
-      <td>JSON object holding data about the user that was added:<br>
+      <td style="vertical-align:top;">JSON object holding data about the user that was added:<br>
         {<br>
-          username : "BellaBean",<br>
-          email : "bella@bella.com",<br>
-          password : "bellapwd",<br>
-          dob : "08-07-2006"<br>
+            "FavoriteMovies": [],<br>
+            "_id": "5d6b1ee64b79941bf16c2e49",<br>
+            "Username": "testuser1",<br>
+            "Password": "testuser1pwd",<br>
+            "Email": "testuser1@email.com",<br>
+            "Birthday": "2000-08-30T04:00:00.000Z",<br>
+            "__v": 0<br>
         }
       </td>
     </tr>
     <tr>
-      <td>Return data about a user (username, password, email, date of birth) by email</td>
-      <td>/users/[email]</td>
+      <td>Return data about a user (username, password, email, date of birth, favorite movies) by username</td>
+      <td>/users/[Username]</td>
       <td>GET</td>
       <td>none</td>
-      <td>JSON object holding data about the user: username, password, email, date of birth</td>
+      <td>JSON object holding data about the user: username, password, email, date of birth:<br>
+        {<br>
+            "FavoriteMovies": [],<br>
+            "_id": "5d6b1ee64b79941bf16c2e49",<br>
+            "Username": "testuser1",<br>
+            "Password": "testuser1pwd",<br>
+            "Email": "testuser1@email.com",<br>
+            "Birthday": "1970-08-30T04:00:00.000Z",<br>
+            "__v": 0<br>
+        }</td>
     </tr>
     <tr>
-      <td>Allow users to update their user info (username, password, email, date of birth)</td>
-      <td>/users/[id]</td>
+      <td>Allow users to update their user info (username, password, email, date of birth) by username</td>
+      <td>/users/[Username]</td>
       <td>PUT</td>
-      <td>none</td>
-      <td>text message indicating whether the user's information was updated</td>
+      <td style="vertical-align:top;">JSON object holding data about the user to update:<br>
+        {<br>
+          Username : String,<br>
+          Password : String,<br>
+          Email : String,<br>
+          Birthday : Date<br>
+        }
+      </td>
+      <td style="vertical-align:top;">JSON object holding data about the user that was updated:<br>
+        {<br>
+            "FavoriteMovies": [],<br>
+            "_id": "5d6b1ee64b79941bf16c2e49",<br>
+            "Username": "testuser1",<br>
+            "Password": "testuser1pwd",<br>
+            "Email": "testuser1@email.com",<br>
+            "Birthday": "1970-08-30T04:00:00.000Z",<br>
+            "__v": 0<br>
+        }
+      </td>
     </tr>
     <tr>
       <td>Allow users to add a movie to their list of favorites</td>
-      <td>/favorites/[id]</td>
+      <td>/users/[Username]/movies/[_id]</td>
       <td>POST</td>
       <td>&nbsp;</td>
-      <td>text message indicating whether the movies was successfully added to favorites list</td>
+      <td style="vertical-align:top;">JSON object holding data about the user including favorite movies list:<br>
+        {<br>
+            "FavoriteMovies": ["5d5b3b7b37b65ba641756cf9","5d5b3b9737b65ba641756cfb"],<br>
+            "_id": "5d6b1ee64b79941bf16c2e49",<br>
+            "Username": "testuser1",<br>
+            "Password": "testuser1pwd",<br>
+            "Email": "testuser1@email.com",<br>
+            "Birthday": "1970-08-30T04:00:00.000Z",<br>
+            "__v": 0<br>
+        }
+      </td>
     </tr>
     <tr>
       <td>Allow users to remove a movie from their list of favorites</td>
-      <td>/favorites/[id]</td>
+      <td>/users/[Username]/movies/[_id]</td>
       <td>DELETE</td>
       <td>none</td>
-      <td>text message indicating whether the movies was successfully removed from favorites list</td>
+      <td style="vertical-align:top;">JSON object holding data about the user including favorite movies list:<br>
+        {<br>
+            "FavoriteMovies": ["5d5b3b7b37b65ba641756cf9"],<br>
+            "_id": "5d6b1ee64b79941bf16c2e49",<br>
+            "Username": "testuser1",<br>
+            "Password": "testuser1pwd",<br>
+            "Email": "testuser1@email.com",<br>
+            "Birthday": "1970-08-30T04:00:00.000Z",<br>
+            "__v": 0<br>
+        }
+      </td>
     </tr>
     <tr>
       <td>Allow existing users to deregister</td>
-      <td>/users/[id]</td>
+      <td>/users/[Username]</td>
       <td>DELETE</td>
       <td>none</td>
       <td>text message indicating whether the user's profile was successfully removed</td>
