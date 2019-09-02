@@ -11,7 +11,7 @@ const express = require('express'),
 const Models = require('./models.js');
 
 //use express-validator for server-side validation
-const {check, validationResults} = require('express-validator');
+const {check, validationResult} = require('express-validator');
 
 //declare variable to use the Express functionality
 const app = express();
@@ -47,9 +47,9 @@ require('./passport');
 
 //connect mongoose
 //local
-//mongoose.connect('mongodb://localhost:27017/MovieListDB', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost:27017/MovieListDB', {useNewUrlParser: true});
 //MongoDB.Atlas
-mongoose.connect('mongodb+srv://cf-dbs-admin:m0ng0Adm1n@cf-dbs-2kghc.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser: true});
+//mongoose.connect('mongodb+srv://cf-dbs-admin:m0ng0Adm1n@cf-dbs-2kghc.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser: true});
 
 //make Mongoose use `findOneAndUpdate()`
 //`true` by default, must be set to false.
@@ -185,7 +185,7 @@ app.get('/movies/directors/:Name', passport.authenticate('jwt', {session : false
  Email : String,
  Birthday : Date
 }*/
-app.post('/users', (req, res) => {
+app.post('/users',
   /*validation logic for request you can either use a chain of methods like .not().isEmpty() which means "opposite of isEmpty" in plain english "is not empty" or use .isLength({min: 5}) which means minimum value of 5 characters are only allowed*/
   [check('Username', 'Username is required.').isLength({min:5}),
    check('Username', 'Username may only contain alphanumeric characters.').isAlphanumeric(),
@@ -193,10 +193,9 @@ app.post('/users', (req, res) => {
    check('Email', 'Email is invalid.').isEmail()],
    (req, res) => {
      //check the validation object for errors
-     var errors = validationResults(req);
+     var errors = validationResult(req);
      if (!errors.isEmpty()) {
        return res.status(422).json({error: errors.array()});
-     }
    }
   var hashedPassword = Users.hashPassword(req.body.Password); //hash password when user registers
   Users.findOne({Username: req.body.Username}) //check if the user already exists
@@ -217,7 +216,7 @@ app.post('/users', (req, res) => {
       .catch(function(error) { //catch any errors in the creatation of the user
         console.error(error);
         res.status(500).send('Error: ' + error);
-      })
+      });
     }
   }).catch(function(error) {
     console.error(error);
@@ -270,7 +269,17 @@ app.get('/users/:Email', (req, res) => {
   Email: String, (required)
   Birthday: Date
 }*/
-app.put('/users/:Username', passport.authenticate('jwt', {session : false}), (req, res) => {
+app.put('/users/:Username', passport.authenticate('jwt', {session : false}),
+[check('Username', 'Username is required.').isLength({min:5}),
+ check('Username', 'Username may only contain alphanumeric characters.').isAlphanumeric(),
+ check('Password', 'Password is required.').not().isEmpty(),
+ check('Email', 'Email is invalid.').isEmail()],
+ (req, res) => {
+   //check the validation object for errors
+   var errors = validationResult(req);
+   if (!errors.isEmpty()) {
+     return res.status(422).json({error: errors.array()});
+ }
   Users.findOneAndUpdate({Username: req.params.Username}, {
   $set: {
     Username: req.body.Username,
@@ -363,13 +372,13 @@ app.delete('/users/:Username', passport.authenticate('jwt', {session : false}), 
 
 
 //listener
-/*for Heroku*/
+/*for Heroku
 var port = process.env.PORT || 3000;
 app.listen(port, '0.0.0.0', function() {
   console.log('Listening on Port 3000');
-});
+});*/
 
-/*for localhost
+/*for localhost*/
 app.listen(8080, () => {
   console.log('The Movie List app is listening on port 8080.');
-});*/
+});
