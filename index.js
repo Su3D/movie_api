@@ -47,9 +47,9 @@ require('./passport');
 
 //connect mongoose
 //local
-mongoose.connect('mongodb://localhost:27017/MovieListDB', {useNewUrlParser: true});
+//mongoose.connect('mongodb://localhost:27017/MovieListDB', {useNewUrlParser: true});
 //MongoDB.Atlas
-//mongoose.connect('mongodb+srv://cf-dbs-admin:m0ng0Adm1n@cf-dbs-2kghc.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser: true});
+mongoose.connect('mongodb+srv://cf-dbs-admin:m0ng0Adm1n@cf-dbs-2kghc.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser: true});
 
 //make Mongoose use `findOneAndUpdate()`
 //`true` by default, must be set to false.
