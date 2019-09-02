@@ -18,6 +18,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
+/*just on local
 //creates list of allowed origins/domains
 var allowedOrigins = ['http://localhost:8080', 'http://127.0.0.1:8080'];
 //check the list of allowed origins
@@ -30,7 +31,7 @@ app.use(cors({
     }
     return callback(null, true);
   }
-}));
+}));*/
 
 //declare variables to use the Mongoose models
 const Movies = Models.Movie;
@@ -45,7 +46,10 @@ var auth = require('./auth')(app);
 require('./passport');
 
 //connect mongoose
-mongoose.connect('mongodb://localhost:27017/MovieListDB', {useNewUrlParser: true});
+//local
+//mongoose.connect('mongodb://localhost:27017/MovieListDB', {useNewUrlParser: true});
+//MongoDB.Atlas
+mongoose.connect('mongodb+srv://cf-dbs-admin:m0ng0Adm1n@cf-dbs-2kghc.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser: true});
 
 //make Mongoose use `findOneAndUpdate()`
 //`true` by default, must be set to false.
