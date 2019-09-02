@@ -22,6 +22,10 @@ var ExtractJWT = passportJWT.ExtractJwt;
         console.log('incorrect username');
         return callback(null, false, {message: 'Incorrect username or password.'});
       }
+      if (!user.validatePassword(password)) { //hash password when user logging in
+        console.log('incorrect password');
+        return callback(null, false, {message: 'Incorrect password.'});
+      }
       console.log('finished');
       return callback(null, user);
     });
