@@ -280,10 +280,11 @@ app.put('/users/:Username', passport.authenticate('jwt', {session : false}),
    if (!errors.isEmpty()) {
      return res.status(422).json({error: errors.array()});
  }
+  var hashedPassword = Users.hashPassword(req.body.Password); //hash password for updates
   Users.findOneAndUpdate({Username: req.params.Username}, {
   $set: {
     Username: req.body.Username,
-    Password: req.body.Password,
+    Password: hashedPassword,
     Email: req.body.Email,
     Birthday: req.body.Birthday
   }},
