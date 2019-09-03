@@ -79,7 +79,8 @@ app.get('/documentation', function (req, res) {
 
 //movies, etc
 //returns data for all movies [GET]
-app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
+//removed [ passport.authenticate('jwt', { session: false }), ] from app.get to allow all access to list
+app.get('/movies', (req, res) => {
   Movies.find()
     .then(function (movies) {
       res.status(201).json(movies)
