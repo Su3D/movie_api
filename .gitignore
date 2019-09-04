@@ -1,3 +1,5 @@
 _noctp/
 node_modules/
 .DS_Store
+.vscode
+.cache
