@@ -5,7 +5,7 @@ const express = require('express'),
   uuid = require('uuid'),
   mongoose = require('mongoose'),
   passport = require('passport'),
-  cors = require('cors');
+//cors = require('cors');
 
 //import/require models.js
 const Models = require('./models.js');
@@ -45,7 +45,7 @@ app.use(bodyParser.json());
 //import auth.js file
 var auth = require('./auth')(app);
 
-
+/*remove so can run from local
 //creates list of allowed origins/domains
 var allowedOrigins = ['http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:1234', 'http://127.0.0.1:1234'];
 //check the list of allowed origins
@@ -58,7 +58,7 @@ app.use(cors({
     }
     return callback(null, true);
   }
-}));
+}));*/
 
 
 //error handler
