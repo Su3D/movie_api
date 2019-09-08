@@ -1,27 +1,37 @@
-* {
-  box-sizing: border-box;
+.login-view {
+  width: 60%;
+  margin: 10px auto;
 }
 
-body {
-  background-color: #fff;
-  font-family: "Montserrat", sans-serif;
-  color: #5f0f4e;
-  font-size: 1em;
-  font-weight: 400;
-  line-height: 1.375em;
+.login-form {
+  margin: 10px 0 50px;
+}
+.register-view {
+  width: 60%;
+  margin: 10px auto;
 }
 
-.movie-list {
-  color: steelblue;
+.register-form {
+  margin: 10px 0 50px;
 }
-
 .movie-card {
-  cursor: pointer;
+  margin-top: 25px;
+}
+
+.card-title {
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 90%;
+}
+.movie-view {
+  margin-top: 25px;
 }
 
 .movie-poster {
   float: left;
-  padding-right: 10px;
+  padding-right: 15px;
   max-width: 25%;
 }
 
@@ -36,6 +46,29 @@ body {
 .label::after {
   content: ":";
   margin-right: 5px;
+}
+
+.movie-item {
+  padding-top: 10px;
+}
+
+.movie-view button {
+  margin-top: 50px;
+}
+.main-view {
+  margin-left: 10px;
+}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #fff;
+  font-family: "Montserrat", sans-serif;
+  color: 5f0f4e;
+  font-size: 1em;
+  font-weight: 400;
+  line-height: 1.375em;
 }
 
 /*# sourceMappingURL=/src.78399e21.css.map */

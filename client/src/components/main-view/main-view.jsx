@@ -1,28 +1,37 @@
+//import modules and files
 import React from 'react';
 import axios from 'axios';
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
+import { LoginView } from '../login-view/login-view';
+import { RegistrationView } from '../registration-view/registration-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 
+import './main-view.scss';
+
+//declare and export components
 export class MainView extends React.Component {
   constructor() {
-    //call the superclass constructor so React can initialize it
     super();
-    //initialize the state to an empty object so it can destructured later
     this.state = {
       movies: null,
-      selectedMovie: null
+      selectedMovie: null,
+      user: null,
+      register: false
     };
   }
 
   componentDidMount() {
     axios.get('https://cf-movie-list-api.herokuapp.com/movies')
-      .then(response => { //assign the result to the state
+      .then(response => {
         this.setState({
           movies: response.data
         });
       })
-      .catch(function (error) {
+      .catch(error => {
         console.log(error);
       });
   }
@@ -33,21 +42,59 @@ export class MainView extends React.Component {
     });
   }
 
+  getBackClick() {
+    this.setState({
+      selectedMovie: null
+    });
+  }
+
+  onLoggedIn(user) {
+    this.setState({
+      user
+    });
+  }
+
+  onSignedIn(user) {
+    this.setState({
+      user: user,
+      register: false
+    });
+  }
+
+  register() {
+    this.setState({
+      register: true
+    })
+  }
+
+  alreadyMember() {
+    this.setState({
+      register: false
+    })
+  }
+
   render() {
-    //if the state isn't initialized, this will throw on runtime before data is initially loaded
-    const { movies, selectedMovie } = this.state;
+    const { movies, selectedMovie, user, register } = this.state;
 
-    //before the movies have been loaded
+    if (!user && register === false) return <LoginView onClick={() => this.register()} onLoggedIn={user => this.onLoggedIn(user)} />
+
+    if (register) return <RegistrationView onClick={() => this.alreadyMember()} onSignedIn={user => this.onSignedIn(user)} />
+
     if (!movies) return <div className="main-view" />;
-
     return (
       <div className="main-view">
-        {selectedMovie
-          ? <MovieView movie={selectedMovie} />
-          : movies.map(movie => (
-            <MovieCard key={movie._id} movie={movie} onClick={movie => this.onMovieClick(movie)} />
-          ))
-        }
+        <Container>
+          <Row>
+            {selectedMovie
+              ? <MovieView movie={selectedMovie} onClick={() => this.getBackClick()} />
+              : movies.map(movie => (
+                <Col key={movie._id} xl={3} md={4} sm={6} xs={12}>
+                  <MovieCard key={movie._id} movie={movie} onClick={movie => this.onMovieClick(movie)} />
+                </Col>
+              ))
+            }
+          </Row>
+        </Container>
       </div>
     );
   }
