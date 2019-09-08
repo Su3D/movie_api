@@ -1,4 +1,4 @@
-//import/require modules:
+//import/require modules
 const express = require('express'),
   morgan = require('morgan'),
   bodyParser = require('body-parser'),
@@ -10,39 +10,20 @@ const express = require('express'),
 //import/require models.js
 const Models = require('./models.js');
 
+//import/require passport.js
+require('./passport');
+
 //use express-validator for server-side validation
 const { check, validationResult } = require('express-validator');
 
 //declare variable to use the Express functionality
 const app = express();
 
-app.use(bodyParser.json());
-
-//creates list of allowed origins/domains
-var allowedOrigins = ['http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:1234', 'http://127.0.0.1:1234'];
-//check the list of allowed origins
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) { //IF the origin isn't on the list
-      var message = 'The CORS policy for this application doesn\'t allow access from origin ' + origin;
-      return callback(new Error(message), false);
-    }
-    return callback(null, true);
-  }
-}));
-
 //declare variables to use the Mongoose models
 const Movies = Models.Movie;
 const Ratings = Models.Rating;
 const Genres = Models.Genre;
 const Users = Models.User;
-
-//import auth.js file
-var auth = require('./auth')(app);
-
-//import/require passport.js
-require('./passport');
 
 //connect mongoose
 //local
@@ -57,6 +38,28 @@ mongoose.set('useFindAndModify', false);
 
 //logger
 app.use(morgan('common'));
+
+//body-parser for POST requests
+app.use(bodyParser.json());
+
+//import auth.js file
+var auth = require('./auth')(app);
+
+
+/*//creates list of allowed origins/domains
+var allowedOrigins = ['http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:1234', 'http://127.0.0.1:1234'];
+//check the list of allowed origins
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) { //IF the origin isn't on the list
+      var message = 'The CORS policy for this application doesn\'t allow access from origin ' + origin;
+      return callback(new Error(message), false);
+    }
+    return callback(null, true);
+  }
+}));*/
+
 
 //error handler
 app.use(function (err, req, res, next) {
@@ -225,7 +228,7 @@ app.post('/users',
   });
 
 //returns data for all users [GET]
-app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.get('/users', (req, res) => {
   Users.find()
     .then(function (users) {
       res.status(201).json(users)
@@ -374,13 +377,13 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 
 
 //listener
-/*for Heroku*/
+/*for running on Heroku*/
 var port = process.env.PORT || 3000;
 app.listen(port, "0.0.0.0", function () {
   console.log("Listening on Port 3000");
 });
 
-/*for localhost
+/*for running on localhost
 app.listen(8080, () => {
   console.log('The Movie List app is listening on port 8080.');
 });*/
