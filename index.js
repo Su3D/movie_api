@@ -46,7 +46,7 @@ app.use(bodyParser.json());
 var auth = require('./auth')(app);
 
 
-/*//creates list of allowed origins/domains
+//creates list of allowed origins/domains
 var allowedOrigins = ['http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:1234', 'http://127.0.0.1:1234'];
 //check the list of allowed origins
 app.use(cors({
@@ -58,7 +58,7 @@ app.use(cors({
     }
     return callback(null, true);
   }
-}));*/
+}));
 
 
 //error handler
@@ -228,6 +228,7 @@ app.post('/users',
   });
 
 //returns data for all users [GET]
+//removed [ passport.authenticate('jwt', { session: false }), ] from app.get to allow all access to list
 app.get('/users', (req, res) => {
   Users.find()
     .then(function (users) {
@@ -250,19 +251,6 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
       res.status(500).send('Error: ', + error);
     });
 });
-
-//allow users to get their ID, and other information (by email) [GET]
-/*doesn't work as you can't have two queries on the same endpoint
-app.get('/users/:Email', (req, res) => {
-  Users.findOne({Email: req.params.Email})
-  .then(function(user) {
-    res.json(user)
-  })
-  .catch(function(error) {
-    console.error(error);
-    res.status(500).send('Error: ', + error);
-  });
-});*/
 
 //allow users to update their information (by username) [PUT]
 /*JSON should be formatted:
@@ -301,33 +289,6 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }),
         res.status(500).send('Error: ' + error);
       });
   });
-
-//allow users to update their information (by _id) [PUT]
-/*doesn't work as you can't have two queries on the same endpoint
-JSON should be formatted:
-{
-  Username: String, (required)
-  Password: String, (required)
-  Email: String, (required)
-  Birthday: Date
-}
-app.put('/users/:_id', (req, res) => {
-  Users.findOneAndUpdate({_id: req.params._id}, {
-  $set: {
-    Username: req.body.Username,
-    Password: req.body.Password,
-    Email: req.body.Email,
-    Birthday: req.body.Birthday
-  }},
-  {new: true} //makes sure the updated data is returned to the user
-  .then(function(updatedUser) {
-    res.json(updatedUser)
-  })
-  .catch(function(error) {
-    console.error(error);
-    res.status(500).send('Error: ' + error);
-  });
-});*/
 
 //allow users to add a movie to their favorites list (by username & movie ID) [POST]
 app.post('/users/:Username/movies/:_id', passport.authenticate('jwt', { session: false }), (req, res) => {
