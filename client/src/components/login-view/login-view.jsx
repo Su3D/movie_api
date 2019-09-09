@@ -1,5 +1,6 @@
 //import modules and files
 import React, { useState } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -11,10 +12,20 @@ export function LoginView(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(username, password);
-    props.onLoggedIn(username);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    //send request to server for authentication
+    axios.post('https://cf-movie-list-api.herokuapp.com/login', {
+      Username: username,
+      Password: password
+    })
+      .then(response => {
+        const data = response.data;
+        props.onLoggedIn(data);
+      })
+      .catch(e => {
+        console.log('No user with that username.');
+      });
   };
 
   return (
@@ -41,7 +52,7 @@ export function LoginView(props) {
       <p>New to The Movie List? Sign-up for access using the button below:</p>
       <Button type="button" variant="outline-secondary" size="sm" onClick={() => props.onClick()}>Register</Button>
     </div>
-  );
+  )
 }
 
 //validate data existence and type
