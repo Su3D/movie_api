@@ -36,20 +36,6 @@ export class MainView extends React.Component {
       });
   }
 
-  getMovies(token) {
-    axios.get('https://cf-movie-list-api.herokuapp.com/movies', {
-      header: { Authorization: `Bearer ${token}` }
-    })
-      .then(response => {
-        this.setState({
-          movies: response.data
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
   onMovieClick(movie) {
     this.setState({
       selectedMovie: movie
@@ -62,14 +48,10 @@ export class MainView extends React.Component {
     });
   }
 
-  onLoggedIn(authData) {
-    console.log(authData);
+  onLoggedIn(user) {
     this.setState({
-      user: authData.user.Username
+      user
     });
-    localStorage.setItem('token', authData.token);
-    localStorage.setItem('user', authData.user.Username);
-    this.getMovies(authData.token);
   }
 
   onSignedIn(user) {
