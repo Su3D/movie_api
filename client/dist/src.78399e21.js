@@ -35293,11 +35293,12 @@ function (_React$Component) {
       var _this3 = this;
 
       _axios.default.get('https://cf-movie-list-api.herokuapp.com/movies', {
-        header: {
+        headers: {
           Authorization: "Bearer ".concat(token)
         }
       }).then(function (response) {
         _this3.setState({
+          //assign result to state
           movies: response.data
         });
       }).catch(function (error) {

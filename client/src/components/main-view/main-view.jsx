@@ -38,14 +38,14 @@ export class MainView extends React.Component {
 
   getMovies(token) {
     axios.get('https://cf-movie-list-api.herokuapp.com/movies', {
-      header: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` }
     })
       .then(response => {
-        this.setState({
+        this.setState({ //assign result to state
           movies: response.data
         });
       })
-      .catch(error => {
+      .catch(function (error) {
         console.log(error);
       });
   }
