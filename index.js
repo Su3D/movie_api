@@ -42,23 +42,10 @@ app.use(morgan('common'));
 //body-parser for POST requests
 app.use(bodyParser.json());
 
+app.use(cors()); //CORS enabled for all origins
+
 //import auth.js file
 var auth = require('./auth')(app);
-
-
-/*//creates list of allowed origins/domains
-var allowedOrigins = ['http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:1234', 'http://127.0.0.1:1234'];
-//check the list of allowed origins
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) { //IF the origin isn't on the list
-      var message = 'The CORS policy for this application doesn\'t allow access from origin ' + origin;
-      return callback(new Error(message), false);
-    }
-    return callback(null, true);
-  }
-}));*/
 
 
 //error handler
