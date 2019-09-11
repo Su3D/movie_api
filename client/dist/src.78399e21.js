@@ -35168,6 +35168,12 @@ function (_React$Component) {
       }, "Description"), _react.default.createElement("div", {
         className: "value"
       }, movie.Description)), _react.default.createElement("div", {
+        className: "movie-rating movie-item"
+      }, _react.default.createElement("div", {
+        className: "label"
+      }, "Rating"), _react.default.createElement("div", {
+        className: "value"
+      }, movie.Rating.Type)), _react.default.createElement("div", {
         className: "movie-genre movie-item"
       }, _react.default.createElement("div", {
         className: "label"
