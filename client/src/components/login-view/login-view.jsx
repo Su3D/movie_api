@@ -51,8 +51,7 @@ export function LoginView(props) {
       <h3>New User</h3>
       <p>New to The Movie List? Sign-up for access using the button below:</p>
       <Button type="button" variant="outline-secondary" size="sm" onClick={() => props.onClick()}>Register</Button>
-    </div>
-  )
+    </div>)
 }
 
 //validate data existence and type
