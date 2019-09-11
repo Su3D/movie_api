@@ -2,17 +2,17 @@ const mongoose = require('mongoose'),
   bcrypt = require('bcrypt');
 
 var movieSchema = mongoose.Schema({
-  Title: {type: String, required: true},
-  Description: {type: String, required: true},
-  Rating: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Rating'
-  }],
+  Title: { type: String, required: true },
+  Description: { type: String, required: true },
+  Rating: {
+    Type: String,
+    Description: String
+  },
   Year: String,
-  Genre: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Genre'
-  }],
+  Genre: {
+    Type: String,
+    Description: String
+  },
   Director: {
     Name: String,
     Bio: String
@@ -21,20 +21,20 @@ var movieSchema = mongoose.Schema({
   Featured: Boolean
 });
 
-var ratingSchema = mongoose.Schema ({
-  Type: {type: String, required: true},
-  Description: {type: String, required: true}
+var ratingSchema = mongoose.Schema({
+  Type: { type: String, required: true },
+  Description: { type: String, required: true }
 });
 
-var genreSchema = mongoose.Schema ({
-  Type: {type: String, required: true},
-  Description: {type: String, required: true}
+var genreSchema = mongoose.Schema({
+  Type: { type: String, required: true },
+  Description: { type: String, required: true }
 });
 
-var userSchema = mongoose.Schema ({
-  Username: {type: String, required: true},
-  Password: {type: String, required: true},
-  Email: {type: String, required: true},
+var userSchema = mongoose.Schema({
+  Username: { type: String, required: true },
+  Password: { type: String, required: true },
+  Email: { type: String, required: true },
   Birthday: Date,
   FavoriteMovies: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -42,11 +42,11 @@ var userSchema = mongoose.Schema ({
   }]
 });
 
-userSchema.statics.hashPassword = function(password) {
+userSchema.statics.hashPassword = function (password) {
   return bcrypt.hashSync(password, 10);
 };
 
-userSchema.methods.validatePassword = function(password) {
+userSchema.methods.validatePassword = function (password) {
   return bcrypt.compareSync(password, this.Password);
 };
 
