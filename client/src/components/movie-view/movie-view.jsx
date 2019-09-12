@@ -5,6 +5,8 @@ import Button from 'react-bootstrap/Button';
 
 import './movie-view.scss';
 
+import { Link } from "react-router-dom";
+
 //declare and export components
 export class MovieView extends React.Component {
   constructor() {
@@ -14,7 +16,7 @@ export class MovieView extends React.Component {
     this.state = {};
   }
   render() {
-    var { movie, onClick } = this.props;
+    var { movie } = this.props;
     if (!movie) return null;
 
     return (
@@ -44,7 +46,13 @@ export class MovieView extends React.Component {
           <div className="label">Director</div>
           <div className="value">{movie.Director.Name}</div>
         </div>
-        <Button onClick={() => onClick()} variant="outline-dark" size="sm">Back to Movie List</Button>
+        <Link to="/"><Button variant="outline-dark" size="sm">Back to Movie List</Button></Link>
+
+        <Link to={`/directors/${movie.Director.Name}`}><Button variant="link">Director</Button></Link>
+
+        <Link to={`/genres/${movie.Genre.Type}`}><Button variant="link">Genre</Button></Link>
+
+        <Link to={`/ratings/${movie.Rating.Type}`}><Button variant="link">Rating</Button></Link>
       </div>
     );
   }
@@ -61,5 +69,5 @@ MovieView.propTypes = {
     }).isRequired,
     ImagePath: PropTypes.string.isRequired
   }).isRequired,
-  onClick: PropTypes.func.isRequired
+  //onClick: PropTypes.func.isRequired
 };

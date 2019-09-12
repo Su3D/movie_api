@@ -1,10 +1,13 @@
 //import modules and files
 import React, { useState } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 import './registration-view.scss';
+
+import { Link } from "react-router-dom";
 
 //declare and export components
 export function RegistrationView(props) {
@@ -15,9 +18,29 @@ export function RegistrationView(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    axios.post('https://cf-movie-list-api.herokuapp.com/users', {
+      Username: username,
+      Password: password,
+      Email: email,
+      Birthday: birthday
+    })
+      .then(response => {
+        const data = response.data;
+        console.log(data);
+        window.open('/', '_self'); //'_self' opens page in current tab
+      })
+      .catch(e => {
+        console.log('There was an error registering the user.')
+      });
+  };
+
+  /* old version
+  const handleSubmit = (event) => {
+    event.preventDefault();
     console.log(username, password, email, birthday);
     props.onSignedIn(username);
   };
+  */
 
   return (
     <div className="register-view">
@@ -50,14 +73,16 @@ export function RegistrationView(props) {
 
       <h3>Login</h3>
       <p>If you already have an account login using the button below:</p>
-      <Button type="button" variant="outline-secondary" size="sm" onClick={() => props.onClick()}>Login</Button>
+      <Link to="/"><Button variant="outline-secondary" size="sm">Login</Button></Link>
     </div>
 
   );
 }
 
+/*
 //validate data existence and type
 RegistrationView.propTypes = {
   onSignedIn: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired
 };
+*/
