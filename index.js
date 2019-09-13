@@ -92,6 +92,7 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req
     });
 });
 
+/*
 //returns data for all ratings [GET]
 app.get('/ratings', passport.authenticate('jwt', { session: false }), (req, res) => {
   Ratings.find()
@@ -103,7 +104,21 @@ app.get('/ratings', passport.authenticate('jwt', { session: false }), (req, res)
       res.status(500).send('Error: ' + error);
     });
 });
+*/
 
+//returns data for a single director (by name) [GET]
+app.get('/movies/ratings/:Type', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Movies.findOne({ 'Rating.Type': req.params.Type })
+    .then(function (movies) {
+      res.json(movies.Rating)
+    })
+    .catch(function (error) {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
+    });
+});
+
+/*old try
 //returns data for a single rating (by type) [GET]
 app.get('/ratings/:Type', passport.authenticate('jwt', { session: false }), (req, res) => {
   Ratings.findOne({ Type: req.params.Type })
@@ -115,7 +130,9 @@ app.get('/ratings/:Type', passport.authenticate('jwt', { session: false }), (req
       res.status(500).send('Error: ' + error);
     });
 });
+*/
 
+/*
 //returns data for all genres [GET]
 app.get('/genres', passport.authenticate('jwt', { session: false }), (req, res) => {
   Genres.find()
@@ -127,6 +144,7 @@ app.get('/genres', passport.authenticate('jwt', { session: false }), (req, res) 
       res.status(500).send('Error: ' + error);
     });
 });
+*/
 
 //returns data for a single genre (by type) [GET]
 app.get('/movies/genres/:Type', passport.authenticate('jwt', { session: false }), (req, res) => {
