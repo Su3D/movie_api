@@ -3,12 +3,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 
-import './director-view.scss';
+import './genre-view.scss';
 
 import { Link } from "react-router-dom";
 
 //declare and export components
-export class DirectorView extends React.Component {
+export class GenreView extends React.Component {
   constructor() {
     //call the superclass constructor so React can initialize it
     super();
@@ -16,27 +16,19 @@ export class DirectorView extends React.Component {
     this.state = {};
   }
   render() {
-    var { director } = this.props;
-    const death = director.Death ? director.Death : "n/a";
-    if (!director) return null;
+    var { genre } = this.props;
+
+    //if (!genre) return null;
 
     return (
       <div className="director-view">
         <div className="director-name director-item">
-          <div className="label">Name</div>
-          <div className="value">{director.Name}</div>
+          <div className="label">Type</div>
+          <div className="value">{genre.Type}</div>
         </div>
         <div className="director-bio director-item">
-          <div className="label">Bio</div>
-          <div className="value">{director.Bio}</div>
-        </div>
-        <div className="director-birthyear director-item">
-          <div className="label">Born</div>
-          <div className="value">{director.Birth}</div>
-        </div>
-        <div className="director-deathyear director-item">
-          <div className="label">Died</div>
-          <div className="value">{death}</div>
+          <div className="label">Description</div>
+          <div className="value">{genre.Description}</div>
         </div>
 
 

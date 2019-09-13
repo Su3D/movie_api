@@ -129,6 +129,19 @@ app.get('/genres', passport.authenticate('jwt', { session: false }), (req, res) 
 });
 
 //returns data for a single genre (by type) [GET]
+app.get('/movies/genres/:Type', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Movies.findOne({ 'Genre.Type': req.params.Type })
+    .then(function (movies) {
+      res.json(movies.Genre)
+    })
+    .catch(function (error) {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
+    });
+});
+
+/*old try
+//returns data for a single genre (by type) [GET]
 app.get('/genres/:Type', passport.authenticate('jwt', { session: false }), (req, res) => {
   Genres.findOne({ Type: req.params.Type })
     .then(function (genre) {
@@ -139,6 +152,7 @@ app.get('/genres/:Type', passport.authenticate('jwt', { session: false }), (req,
       res.status(500).send('Error: ' + error);
     });
 });
+*/
 
 //returns data for all directors [GET]
 /*doesn't work
