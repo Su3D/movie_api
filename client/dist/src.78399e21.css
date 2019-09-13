@@ -89,12 +89,6 @@
   margin-top: 25px;
 }
 
-.movie-poster {
-  float: left;
-  padding-right: 15px;
-  max-width: 25%;
-}
-
 .label, .value {
   display: inline;
 }
@@ -113,6 +107,30 @@
 }
 
 .genre-view button {
+  margin-top: 50px;
+}
+.rating-view {
+  margin-top: 25px;
+}
+
+.label, .value {
+  display: inline;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.label::after {
+  content: ":";
+  margin-right: 5px;
+}
+
+.rating-item {
+  padding-top: 10px;
+}
+
+.rating-view button {
   margin-top: 50px;
 }
 .main-view {

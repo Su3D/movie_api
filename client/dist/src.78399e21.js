@@ -38332,25 +38332,19 @@ function (_React$Component) {
   }]);
 
   return DirectorView;
-}(_react.default.Component);
-/*
-//validate data existence and type
-MovieView.propTypes = {
-  movie: PropTypes.shape({
-    Title: PropTypes.string.isRequired,
-    Year: PropTypes.string.isRequired,
-    Description: PropTypes.string.isRequired,
-    Director: PropTypes.shape({
-      Name: PropTypes.string.isRequired
-    }).isRequired,
-    ImagePath: PropTypes.string.isRequired
-  }).isRequired,
-  //onClick: PropTypes.func.isRequired
-};
-*/
+}(_react.default.Component); //validate data existence and type
 
 
 exports.DirectorView = DirectorView;
+DirectorView.propTypes = {
+  director: _propTypes.default.shape({
+    Name: _propTypes.default.string.isRequired,
+    Bio: _propTypes.default.string.isRequired,
+    Birth: _propTypes.default.string,
+    Death: _propTypes.default.string
+  }).isRequired //onClick: PropTypes.func.isRequired
+
+};
 },{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/Button.js","./director-view.scss":"components/director-view/director-view.scss","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/genre-view/genre-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
@@ -38415,18 +38409,18 @@ function (_React$Component) {
   _createClass(GenreView, [{
     key: "render",
     value: function render() {
-      var genre = this.props.genre; //if (!genre) return null;
-
+      var genre = this.props.genre;
+      if (!genre) return null;
       return _react.default.createElement("div", {
-        className: "director-view"
+        className: "genre-view"
       }, _react.default.createElement("div", {
-        className: "director-name director-item"
+        className: "genre-type genre-item"
       }, _react.default.createElement("div", {
         className: "label"
       }, "Type"), _react.default.createElement("div", {
         className: "value"
       }, genre.Type)), _react.default.createElement("div", {
-        className: "director-bio director-item"
+        className: "genre-description genre-item"
       }, _react.default.createElement("div", {
         className: "label"
       }, "Description"), _react.default.createElement("div", {
@@ -38460,7 +38454,116 @@ MovieView.propTypes = {
 
 
 exports.GenreView = GenreView;
-},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/Button.js","./genre-view.scss":"components/genre-view/genre-view.scss","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/main-view/main-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/Button.js","./genre-view.scss":"components/genre-view/genre-view.scss","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/rating-view/rating-view.scss":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/rating-view/rating-view.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.RatingView = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
+
+require("./rating-view.scss");
+
+var _reactRouterDom = require("react-router-dom");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+//declare and export components
+var RatingView =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(RatingView, _React$Component);
+
+  function RatingView() {
+    var _this;
+
+    _classCallCheck(this, RatingView);
+
+    //call the superclass constructor so React can initialize it
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(RatingView).call(this)); //initialize the state to an empty object so it can destructured later
+
+    _this.state = {};
+    return _this;
+  }
+
+  _createClass(RatingView, [{
+    key: "render",
+    value: function render() {
+      var rating = this.props.rating;
+      if (!genre) return null;
+      return _react.default.createElement("div", {
+        className: "rating-view"
+      }, _react.default.createElement("div", {
+        className: "rating-type rating-item"
+      }, _react.default.createElement("div", {
+        className: "label"
+      }, "Type"), _react.default.createElement("div", {
+        className: "value"
+      }, rating.Type)), _react.default.createElement("div", {
+        className: "rating-description rating-item"
+      }, _react.default.createElement("div", {
+        className: "label"
+      }, "Description"), _react.default.createElement("div", {
+        className: "value"
+      }, rating.Description)), _react.default.createElement(_reactRouterDom.Link, {
+        to: "/"
+      }, _react.default.createElement(_Button.default, {
+        variant: "outline-dark",
+        size: "sm"
+      }, "Back to Movie List")));
+    }
+  }]);
+
+  return RatingView;
+}(_react.default.Component);
+/*
+//validate data existence and type
+MovieView.propTypes = {
+  movie: PropTypes.shape({
+    Title: PropTypes.string.isRequired,
+    Year: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired,
+    Director: PropTypes.shape({
+      Name: PropTypes.string.isRequired
+    }).isRequired,
+    ImagePath: PropTypes.string.isRequired
+  }).isRequired,
+  //onClick: PropTypes.func.isRequired
+};
+*/
+
+
+exports.RatingView = RatingView;
+},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/Button.js","./rating-view.scss":"components/rating-view/rating-view.scss","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/main-view/main-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -38496,6 +38599,8 @@ var _movieView = require("../movie-view/movie-view");
 var _directorView = require("../director-view/director-view");
 
 var _genreView = require("../genre-view/genre-view");
+
+var _ratingView = require("../rating-view/rating-view");
 
 require("./main-view.scss");
 
@@ -38678,7 +38783,7 @@ function (_React$Component) {
             className: "main-view"
           });
           return _react.default.createElement(_genreView.GenreView, {
-            director: movies.find(function (m) {
+            genre: movies.find(function (m) {
               return m.Genre.Type === match.params.type;
             }).Genre
           });
@@ -38690,8 +38795,8 @@ function (_React$Component) {
           if (!movies) return _react.default.createElement("div", {
             className: "main-view"
           });
-          return _react.default.createElement(RatingView, {
-            director: movies.find(function (m) {
+          return _react.default.createElement(_ratingView.RatingView, {
+            rating: movies.find(function (m) {
               return m.Rating.Type === match.params.type;
             }).Rating
           });
@@ -38729,7 +38834,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.MainView = MainView;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/Col.js","react-bootstrap/Row":"../node_modules/react-bootstrap/Row.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","./main-view.scss":"components/main-view/main-view.scss"}],"index.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/Col.js","react-bootstrap/Row":"../node_modules/react-bootstrap/Row.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","../rating-view/rating-view":"components/rating-view/rating-view.jsx","./main-view.scss":"components/main-view/main-view.scss"}],"index.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);

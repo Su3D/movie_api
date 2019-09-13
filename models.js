@@ -23,6 +23,7 @@ var movieSchema = mongoose.Schema({
   Featured: Boolean
 });
 
+/*
 var ratingSchema = mongoose.Schema({
   Type: { type: String, required: true },
   Description: { type: String, required: true }
@@ -32,6 +33,7 @@ var genreSchema = mongoose.Schema({
   Type: { type: String, required: true },
   Description: { type: String, required: true }
 });
+*/
 
 var userSchema = mongoose.Schema({
   Username: { type: String, required: true },
@@ -53,12 +55,13 @@ userSchema.methods.validatePassword = function (password) {
 };
 
 var Movie = mongoose.model('Movie', movieSchema, 'movies');
-var Rating = mongoose.model('Rating', ratingSchema, 'ratings');
-var Genre = mongoose.model('Genre', genreSchema, 'genres');
+//var Rating = mongoose.model('Rating', ratingSchema, 'ratings');
+//var Genre = mongoose.model('Genre', genreSchema, 'genres');
 var User = mongoose.model('User', userSchema, 'users');
 
+//add back Rating, Genre
 module.exports = {
-  Movie, Rating, Genre, User
+  Movie, User
 };
 
 /* expanded version of above?

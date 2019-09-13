@@ -13,6 +13,7 @@ import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
+import { RatingView } from '../rating-view/rating-view';
 
 import './main-view.scss';
 
@@ -124,13 +125,13 @@ export class MainView extends React.Component {
 
               <Route path="/genres/:type" render={({ match }) => {
                 if (!movies) return <div className="main-view" />;
-                return <GenreView director={movies.find(m => m.Genre.Type === match.params.type).Genre} />
+                return <GenreView genre={movies.find(m => m.Genre.Type === match.params.type).Genre} />
               }
               } />
 
               <Route path="/ratings/:type" render={({ match }) => {
                 if (!movies) return <div className="main-view" />;
-                return <RatingView director={movies.find(m => m.Rating.Type === match.params.type).Rating} />
+                return <RatingView rating={movies.find(m => m.Rating.Type === match.params.type).Rating} />
               }
               } />
             </Row>
