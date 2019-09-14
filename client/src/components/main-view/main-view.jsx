@@ -17,7 +17,7 @@ import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
 import { RatingView } from '../rating-view/rating-view';
 import { ProfileView } from "../profile-view/profile-view";
-import { ProfileUpdate } from "../profile-view/profile-view";
+
 
 import './main-view.scss';
 
@@ -32,6 +32,16 @@ export class MainView extends React.Component {
     };
   }
 
+  componentDidMount() {
+    let accessToken = localStorage.getItem('token');
+    if (accessToken !== null) {
+      this.setState({
+        user: localStorage.getItem('user')
+      });
+      this.getMovies(accessToken);
+    }
+  }
+
   onLoggedIn(authData) {
     console.log(authData);
     this.setState({
@@ -41,10 +51,6 @@ export class MainView extends React.Component {
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
     this.getMovies(authData.token);
-
-    //show buttons when logged in
-    let navbar = document.getElementsByClassName('nav')[0];
-    navbar.classList.add('show-nav');
   }
 
   onLogout() {
@@ -58,15 +64,6 @@ export class MainView extends React.Component {
     window.open('/', '_self');
   }
 
-  componentDidMount() {
-    let accessToken = localStorage.getItem('token');
-    if (accessToken !== null) {
-      this.setState({
-        user: localStorage.getItem('user')
-      });
-      this.getMovies(accessToken);
-    }
-  }
 
   getMovies(token) {
     axios.get('https://cf-movie-list-api.herokuapp.com/movies', {
@@ -123,9 +120,9 @@ export class MainView extends React.Component {
   */
 
   render() {
-    const { movies, user, email, birthday, token } = this.state;
+    const { movies, user, profileData } = this.state;
 
-    //if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+    if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
     if (!movies) return <div className="main-view" />;
 
     return (
@@ -134,7 +131,7 @@ export class MainView extends React.Component {
           <Container>
             <Row className="nav">
               <Button onClick={() => this.onLogout()} className="logout-btn" variant="outline-warning" size="sm">Log Out</Button>
-              <Link to="/userprofile"><Button variant="outline-warning" size="sm">Profile</Button></Link>
+              <Link to="/profile"><Button variant="outline-warning" size="sm">Profile</Button></Link>
             </Row>
             <Row>
               <Route exact path="/" render={() => {
@@ -145,7 +142,7 @@ export class MainView extends React.Component {
 
               <Route path="/register" render={() => <RegistrationView />} />
 
-              <Route exact path="/profile" render={() => <ProfileView user={profileData} />} />
+              <Route exact path="/profile" render={() => <ProfileView />} />
 
               <Route path="/movies/:movieId" render={({ match }) => <MovieView movie={movies.find(m => m._id === match.params.movieId)} />} />
 

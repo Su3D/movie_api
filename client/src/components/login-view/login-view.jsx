@@ -52,9 +52,11 @@ export function LoginView(props) {
 
       <h3>New User</h3>
       <p>New to The Movie List? Sign-up for access using the button below:</p>
-      <Link to="/register"><Button variant="outline-secondary" size="sm">Register</Button></Link>
+
     </div>)
 }
+
+//<Link to="/register"><Button variant="outline-secondary" size="sm">Register</Button></Link>
 
 /*
 //validate data existence and type
