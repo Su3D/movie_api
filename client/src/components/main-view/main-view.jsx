@@ -33,6 +33,28 @@ export class MainView extends React.Component {
     };
   }
 
+  onLoggedIn(authData) {
+    console.log(authData);
+    this.setState({
+      user: authData.user.Username
+    });
+    localStorage.setItem('token', authData.token);
+    localStorage.setItem('user', authData.user.Username);
+    this.getMovies(authData.token);
+  }
+
+  onLogout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    this.setState({
+      user: null
+    });
+
+    window.open('/', '_self');
+  }
+
+
   getMovies(token) {
     axios.get('https://cf-movie-list-api.herokuapp.com/movies', {
       headers: { Authorization: `Bearer ${token}` }
@@ -48,14 +70,13 @@ export class MainView extends React.Component {
   }
 
   getUser(user, token) {
-    axios.get('https://cf-movie-list-api.herokuapp.com/users' + user, {
+    axios.get('https://cf-movie-list-api.herokuapp.com/users/' + user, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(response => {
         this.setState({ //assign result to state
           email: response.data.Email,
-          birthday: response.data.Birthday,
-          token: token
+          birthday: response.data.Birthday
         });
       })
       .catch(function (error) {
@@ -82,27 +103,6 @@ export class MainView extends React.Component {
       this.getMovies(accessToken);
       this.getUser(user, accessToken);
     }
-  }
-
-
-
-  onLoggedIn(authData) {
-    console.log(authData);
-    this.setState({
-      user: authData.user.Username
-    });
-    localStorage.setItem('token', authData.token);
-    localStorage.setItem('user', authData.user.Username);
-    this.getMovies(authData.token);
-  }
-
-  onLogout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-
-    this.setState({
-      user: null
-    });
   }
 
   /*possibly don't need anymore???

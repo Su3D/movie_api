@@ -9,7 +9,6 @@ import './profile-view.scss';
 
 import { Link } from "react-router-dom";
 
-
 export function ProfileView(props) {
   const username = props.user,
     email = props.email,
@@ -17,13 +16,15 @@ export function ProfileView(props) {
 
   return (
     <div className="user-profile">
-      <Button className="deregister-btn" variant="primary">Delete Profile</Button>
+      <Button className="deregister-btn" variant="primary">
+        Delete profile
+      </Button>
       <div className="container">
         <div className="label h5">User Profile</div>
         <div className="value">Username: {username}</div>
         <div className="value">Password: ********</div>
         <div className="value">Email: {email}</div>
-        <div className="value">Birthday: {birthday}</div>
+        <div className="value">Birthday: {birthday.substr(0, 10)}</div>
         <Link to={`/userprofile/update`}>
           <Button className="update-btn" variant="link">
             Update user info...
@@ -49,7 +50,7 @@ export function ProfileUpdate(props) {
     e.preventDefault();
     axios
       .put(
-        "https://cinestock.herokuapp.com/users/" + user,
+        "https://cf-movie-list-api.herokuapp.com/users/" + user,
         {
           headers: { Authorization: `Bearer ${token}` }
         },
@@ -106,7 +107,7 @@ export function ProfileUpdate(props) {
             type="date"
             value={birthday}
             onChange={e => setBirthday(e.target.value)}
-            placeholder="Please provide your birthday in format mm/dd/yyyy"
+            placeholder="Please provide your birthday in format mm-dd-yyyy"
           />
         </Form.Group>
         <Button variant="primary" type="submit" onClick={handleUpdate}>

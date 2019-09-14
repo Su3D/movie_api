@@ -38598,7 +38598,7 @@ function ProfileView(props) {
   }, _react.default.createElement(_Button.default, {
     className: "deregister-btn",
     variant: "primary"
-  }, "Delete Profile"), _react.default.createElement("div", {
+  }, "Delete profile"), _react.default.createElement("div", {
     className: "container"
   }, _react.default.createElement("div", {
     className: "label h5"
@@ -38610,7 +38610,7 @@ function ProfileView(props) {
     className: "value"
   }, "Email: ", email), _react.default.createElement("div", {
     className: "value"
-  }, "Birthday: ", birthday), _react.default.createElement(_reactRouterDom.Link, {
+  }, "Birthday: ", birthday.substr(0, 10)), _react.default.createElement(_reactRouterDom.Link, {
     to: "/userprofile/update"
   }, _react.default.createElement(_Button.default, {
     className: "update-btn",
@@ -38649,7 +38649,7 @@ function ProfileUpdate(props) {
   var handleUpdate = function handleUpdate(e) {
     e.preventDefault();
 
-    _axios.default.put("https://cinestock.herokuapp.com/users/" + user, {
+    _axios.default.put("https://cf-movie-list-api.herokuapp.com/users/" + user, {
       headers: {
         Authorization: "Bearer ".concat(token)
       }
@@ -38703,7 +38703,7 @@ function ProfileUpdate(props) {
     onChange: function onChange(e) {
       return setBirthday(e.target.value);
     },
-    placeholder: "Please provide your birthday in format mm/dd/yyyy"
+    placeholder: "Please provide your birthday in format mm-dd-yyyy"
   })), _react.default.createElement(_Button.default, {
     variant: "primary",
     type: "submit",
@@ -38799,6 +38799,27 @@ function (_React$Component) {
   }
 
   _createClass(MainView, [{
+    key: "onLoggedIn",
+    value: function onLoggedIn(authData) {
+      console.log(authData);
+      this.setState({
+        user: authData.user.Username
+      });
+      localStorage.setItem('token', authData.token);
+      localStorage.setItem('user', authData.user.Username);
+      this.getMovies(authData.token);
+    }
+  }, {
+    key: "onLogout",
+    value: function onLogout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      this.setState({
+        user: null
+      });
+      window.open('/', '_self');
+    }
+  }, {
     key: "getMovies",
     value: function getMovies(token) {
       var _this2 = this;
@@ -38821,7 +38842,7 @@ function (_React$Component) {
     value: function getUser(user, token) {
       var _this3 = this;
 
-      _axios.default.get('https://cf-movie-list-api.herokuapp.com/users' + user, {
+      _axios.default.get('https://cf-movie-list-api.herokuapp.com/users/' + user, {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
@@ -38829,8 +38850,7 @@ function (_React$Component) {
         _this3.setState({
           //assign result to state
           email: response.data.Email,
-          birthday: response.data.Birthday,
-          token: token
+          birthday: response.data.Birthday
         });
       }).catch(function (error) {
         console.log(error);
@@ -38860,26 +38880,6 @@ function (_React$Component) {
         this.getMovies(accessToken);
         this.getUser(user, accessToken);
       }
-    }
-  }, {
-    key: "onLoggedIn",
-    value: function onLoggedIn(authData) {
-      console.log(authData);
-      this.setState({
-        user: authData.user.Username
-      });
-      localStorage.setItem('token', authData.token);
-      localStorage.setItem('user', authData.user.Username);
-      this.getMovies(authData.token);
-    }
-  }, {
-    key: "onLogout",
-    value: function onLogout() {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      this.setState({
-        user: null
-      });
     }
     /*possibly don't need anymore???
     onMovieClick(movie) {
@@ -39153,7 +39153,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63820" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63489" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
