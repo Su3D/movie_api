@@ -54,11 +54,11 @@
 
 .movie-view button {
   margin-top: 50px;
+  margin-right: 15px;
 }
 
 .movie-view .movie-more-info button {
   margin-top: 0;
-  margin-right: 15px;
 }
 .director-view {
   margin-top: 25px;
@@ -138,13 +138,34 @@
 .rating-view button {
   margin-top: 50px;
 }
-.login-view {
+.profile-view {
   width: 60%;
   margin: 10px auto;
 }
 
-.login-form {
-  margin: 10px 0 50px;
+.profile-view button {
+  margin-top: 10px;
+  margin-right: 15px;
+}
+
+.changeDataForm {
+  margin-top: 30px;
+  display: none;
+}
+
+.show-form {
+  display: inherit;
+  position: relative;
+  animation: formSlideDown 0.3s ease-in;
+}
+
+@keyframes formSlideDown {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 .main-view {
   margin-left: 10px;

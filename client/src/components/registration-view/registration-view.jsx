@@ -72,7 +72,7 @@ export function RegistrationView(props) {
       </Form>
 
       <h3>Login</h3>
-      <p>If you already have an account login using the button below:</p>
+      <p>If you already have an account, login using the button below:</p>
       <Link to="/"><Button variant="outline-secondary" size="sm">Login</Button></Link>
     </div>
 
@@ -82,7 +82,6 @@ export function RegistrationView(props) {
 /*
 //validate data existence and type
 RegistrationView.propTypes = {
-  onSignedIn: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired
-};
-*/
+  onSignedIn: PropTypes.func.isRequired
+  //onClick: PropTypes.func.isRequired
+};*/

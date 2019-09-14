@@ -1,18 +1,15 @@
-////////////
-// IMPORT ALL NECESSARY MODULES AND FILES
-////////////
-import React from 'react';
+//import modules and files
+import React, { useState } from 'react';
 import axios from 'axios';
-import Button from 'react-bootstrap/Button';
+import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
-
-import { Link } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 
 import './profile-view.scss';
 
-////////////
-// DECLARE AND EXPORT COMPONENTS
-////////////
+import { Link } from "react-router-dom";
+
+//declare and export components
 export class ProfileView extends React.Component {
   constructor() {
     super();
@@ -71,7 +68,7 @@ export class ProfileView extends React.Component {
         //clears storage
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        //opens login view
+        //returns to login view
         window.open('/', '_self');
       })
       .catch(event => {
@@ -134,9 +131,9 @@ export class ProfileView extends React.Component {
     let toggleButton = document.getElementById('toggleButton');
     form.classList.toggle('show-form');
     if (form.classList.contains('show-form')) {
-      toggleButton.innerHTML = 'CHANGE DATA &uarr;';
+      toggleButton.innerHTML = 'Update Profile &uarr;';
     } else {
-      toggleButton.innerHTML = 'CHANGE DATA &darr;';
+      toggleButton.innerHTML = 'Update Profile &darr;';
     }
   }
 
@@ -147,7 +144,7 @@ export class ProfileView extends React.Component {
 
     return (
       <div className="profile-view">
-        <h1>Your Profile Data</h1>
+        <h1>Profile</h1>
         <div className="username">
           <div className="label">Name</div>
           <div className="value">{username}</div>
@@ -175,22 +172,17 @@ export class ProfileView extends React.Component {
           }
         </div>
 
-        <Link to={'/'}>
-          <Button className="view-btn" variant="primary" type="button">
-            BACK
-          </Button>
-        </Link>
-        <Button className="view-btn" variant="primary" type="button" onClick={(event) => this.deleteUser(event)}>
-          DELETE
-        </Button>
-        <Button id="toggleButton" className="view-btn" variant="primary" type="button" onClick={() => this.toggleForm()}>
-          CHANGE DATA &darr;
-        </Button>
+        {/*<Link to={'/'}><Button className="view-btn" variant="primary" type="button">BACK</Button></Link>*/}
+
+        <Button id="toggleButton" className="view-btn" variant="primary" type="button" onClick={() => this.toggleForm()}>Update Profile &darr;</Button>
+
+        <Button className="view-btn" variant="primary" type="button" onClick={(event) => this.deleteUser(event)}>Delete Profile</Button>
+
 
         <Form className="changeDataForm">
-          <h2>Change Data</h2>
+          <h2>Update Profile</h2>
           <Form.Group controlId="formBasicUsername">
-            <Form.Label >Your Username</Form.Label>
+            <Form.Label >Username</Form.Label>
             <Form.Control type="text" name="usernameForm" onChange={event => this.handleChange(event)} placeholder="Enter Username" />
             <Form.Text className="text-muted">
               Type your username here.
@@ -198,23 +190,21 @@ export class ProfileView extends React.Component {
           </Form.Group>
 
           <Form.Group controlId="formBasicPassword">
-            <Form.Label>Your Password</Form.Label>
+            <Form.Label>Password</Form.Label>
             <Form.Control type="password" name="passwordForm" onChange={event => this.handleChange(event)} placeholder="Password" />
           </Form.Group>
 
           <Form.Group controlId="formBasicEmail">
-            <Form.Label>Your Email</Form.Label>
+            <Form.Label>Email</Form.Label>
             <Form.Control type="email" name="emailForm" onChange={event => this.handleChange(event)} placeholder="example@email.com" />
           </Form.Group>
 
           <Form.Group controlId="formBasicBirthday">
-            <Form.Label>Your Birthday</Form.Label>
+            <Form.Label>Birthday</Form.Label>
             <Form.Control type="text" name="birthdayForm" onChange={event => this.handleChange(event)} placeholder="01.01.2000" />
           </Form.Group>
 
-          <Button variant="primary" type="button" onClick={event => this.handleSubmit(event)} >
-            CHANGE!
-          </Button>
+          <Button variant="primary" type="button" onClick={event => this.handleSubmit(event)} >Update</Button>
         </Form>
       </div>
     );

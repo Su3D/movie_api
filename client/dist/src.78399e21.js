@@ -37627,16 +37627,19 @@ function LoginView(props) {
     type: "button",
     variant: "primary",
     onClick: handleSubmit
-  }, "Login")), _react.default.createElement("h3", null, "New User"), _react.default.createElement("p", null, "New to The Movie List? Sign-up for access using the button below:"));
-} //<Link to="/register"><Button variant="outline-secondary" size="sm">Register</Button></Link>
+  }, "Login")), _react.default.createElement("h3", null, "New User"), _react.default.createElement("p", null, "New to The Movie List? Sign-up for access using the button below:"), _react.default.createElement(_reactRouterDom.Link, {
+    to: "/register"
+  }, _react.default.createElement(_Button.default, {
+    variant: "outline-secondary",
+    size: "sm"
+  }, "Register")));
+} //validate data existence and type
 
-/*
-//validate data existence and type
+
 LoginView.propTypes = {
-  onLoggedIn: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired
+  onLoggedIn: _propTypes.default.func.isRequired //onClick: PropTypes.func.isRequired
+
 };
-*/
 },{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/Button.js","./login-view.scss":"components/login-view/login-view.scss","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
@@ -37769,7 +37772,7 @@ function RegistrationView(props) {
     variant: "primary",
     type: "button",
     onClick: handleSubmit
-  }, "Submit")), _react.default.createElement("h3", null, "Login"), _react.default.createElement("p", null, "If you already have an account login using the button below:"), _react.default.createElement(_reactRouterDom.Link, {
+  }, "Submit")), _react.default.createElement("h3", null, "Login"), _react.default.createElement("p", null, "If you already have an account, login using the button below:"), _react.default.createElement(_reactRouterDom.Link, {
     to: "/"
   }, _react.default.createElement(_Button.default, {
     variant: "outline-secondary",
@@ -37779,10 +37782,9 @@ function RegistrationView(props) {
 /*
 //validate data existence and type
 RegistrationView.propTypes = {
-  onSignedIn: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired
-};
-*/
+  onSignedIn: PropTypes.func.isRequired
+  //onClick: PropTypes.func.isRequired
+};*/
 },{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/Button.js","./registration-view.scss":"components/registration-view/registration-view.scss","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"../node_modules/react-bootstrap/CardDeck.js":[function(require,module,exports) {
 "use strict";
 
@@ -38093,7 +38095,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.MovieView = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
+
+var _axios = _interopRequireDefault(require("axios"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -38104,6 +38108,8 @@ require("./movie-view.scss");
 var _reactRouterDom = require("react-router-dom");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -38139,11 +38145,33 @@ function (_React$Component) {
 
     _this.state = {};
     return _this;
-  }
+  } //add movie to FavoriteList
+
 
   _createClass(MovieView, [{
+    key: "handleSubmit",
+    value: function handleSubmit(event) {
+      event.preventDefault();
+
+      _axios.default.put("https://cf-movie-list-api.herokuapp.com/users/".concat(localStorage.getItem('user'), "/movies/").concat(this.props.movie._id), {
+        Username: localStorage.getItem('user')
+      }, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('token'))
+        }
+      }).then(function (response) {
+        console.log(response);
+        alert('Movie has been added to your Favorite List!');
+      }).catch(function (event) {
+        console.log('error adding movie to list');
+        alert('Ooooops... Something went wrong!');
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var movie = this.props.movie;
       if (!movie) return null;
       return _react.default.createElement("div", {
@@ -38201,33 +38229,41 @@ function (_React$Component) {
         to: "/ratings/".concat(movie.Rating.Type)
       }, _react.default.createElement(_Button.default, {
         variant: "outline-secondary"
-      }, "Rating"))), _react.default.createElement(_reactRouterDom.Link, {
+      }, "Rating"))), _react.default.createElement(_Button.default, {
+        variant: "outline-info",
+        size: "sm",
+        onClick: function onClick(event) {
+          return _this2.handleSubmit(event);
+        }
+      }, "Add to Favorites"), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_Button.default, {
-        variant: "outline-dark",
+        variant: "outline-info",
         size: "sm"
       }, "Back to Movie List")));
     }
   }]);
 
   return MovieView;
-}(_react.default.Component); //validate data existence and type
+}(_react.default.Component);
+/*
+//validate data existence and type
+MovieView.propTypes = {
+  movie: PropTypes.shape({
+    Title: PropTypes.string.isRequired,
+    Year: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired,
+    Director: PropTypes.shape({
+      Name: PropTypes.string.isRequired
+    }).isRequired,
+    ImagePath: PropTypes.string.isRequired
+  }).isRequired
+  //onClick: PropTypes.func.isRequired
+}; */
 
 
 exports.MovieView = MovieView;
-MovieView.propTypes = {
-  movie: _propTypes.default.shape({
-    Title: _propTypes.default.string.isRequired,
-    Year: _propTypes.default.string.isRequired,
-    Description: _propTypes.default.string.isRequired,
-    Director: _propTypes.default.shape({
-      Name: _propTypes.default.string.isRequired
-    }).isRequired,
-    ImagePath: _propTypes.default.string.isRequired
-  }).isRequired //onClick: PropTypes.func.isRequired
-
-};
-},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/Button.js","./movie-view.scss":"components/movie-view/movie-view.scss","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/director-view/director-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/Button.js","./movie-view.scss":"components/movie-view/movie-view.scss","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/director-view/director-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -38558,19 +38594,23 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ProfileView = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
 
 var _axios = _interopRequireDefault(require("axios"));
 
-var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
 
-var _reactRouterDom = require("react-router-dom");
+var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
 require("./profile-view.scss");
 
+var _reactRouterDom = require("react-router-dom");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -38592,9 +38632,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-////////////
-// DECLARE AND EXPORT COMPONENTS
-////////////
+//declare and export components
 var ProfileView =
 /*#__PURE__*/
 function (_React$Component) {
@@ -38670,7 +38708,7 @@ function (_React$Component) {
         alert('Your Account has been deleted!'); //clears storage
 
         localStorage.removeItem('token');
-        localStorage.removeItem('user'); //opens login view
+        localStorage.removeItem('user'); //returns to login view
 
         window.open('/', '_self');
       }).catch(function (event) {
@@ -38745,9 +38783,9 @@ function (_React$Component) {
       form.classList.toggle('show-form');
 
       if (form.classList.contains('show-form')) {
-        toggleButton.innerHTML = 'CHANGE DATA &uarr;';
+        toggleButton.innerHTML = 'Update Profile &uarr;';
       } else {
-        toggleButton.innerHTML = 'CHANGE DATA &darr;';
+        toggleButton.innerHTML = 'Update Profile &darr;';
       }
     }
   }, {
@@ -38764,7 +38802,7 @@ function (_React$Component) {
       if (!userData) return null;
       return _react.default.createElement("div", {
         className: "profile-view"
-      }, _react.default.createElement("h1", null, "Your Profile Data"), _react.default.createElement("div", {
+      }, _react.default.createElement("h1", null, "Profile"), _react.default.createElement("div", {
         className: "username"
       }, _react.default.createElement("div", {
         className: "label"
@@ -38806,20 +38844,7 @@ function (_React$Component) {
             return _this5.deleteMovie(event, favoriteMovie);
           }
         }, " Delete"));
-      }))), _react.default.createElement(_reactRouterDom.Link, {
-        to: '/'
-      }, _react.default.createElement(_Button.default, {
-        className: "view-btn",
-        variant: "primary",
-        type: "button"
-      }, "BACK")), _react.default.createElement(_Button.default, {
-        className: "view-btn",
-        variant: "primary",
-        type: "button",
-        onClick: function onClick(event) {
-          return _this5.deleteUser(event);
-        }
-      }, "DELETE"), _react.default.createElement(_Button.default, {
+      }))), _react.default.createElement(_Button.default, {
         id: "toggleButton",
         className: "view-btn",
         variant: "primary",
@@ -38827,11 +38852,18 @@ function (_React$Component) {
         onClick: function onClick() {
           return _this5.toggleForm();
         }
-      }, "CHANGE DATA \u2193"), _react.default.createElement(_Form.default, {
+      }, "Update Profile \u2193"), _react.default.createElement(_Button.default, {
+        className: "view-btn",
+        variant: "primary",
+        type: "button",
+        onClick: function onClick(event) {
+          return _this5.deleteUser(event);
+        }
+      }, "Delete Profile"), _react.default.createElement(_Form.default, {
         className: "changeDataForm"
-      }, _react.default.createElement("h2", null, "Change Data"), _react.default.createElement(_Form.default.Group, {
+      }, _react.default.createElement("h2", null, "Update Profile"), _react.default.createElement(_Form.default.Group, {
         controlId: "formBasicUsername"
-      }, _react.default.createElement(_Form.default.Label, null, "Your Username"), _react.default.createElement(_Form.default.Control, {
+      }, _react.default.createElement(_Form.default.Label, null, "Username"), _react.default.createElement(_Form.default.Control, {
         type: "text",
         name: "usernameForm",
         onChange: function onChange(event) {
@@ -38842,7 +38874,7 @@ function (_React$Component) {
         className: "text-muted"
       }, "Type your username here.")), _react.default.createElement(_Form.default.Group, {
         controlId: "formBasicPassword"
-      }, _react.default.createElement(_Form.default.Label, null, "Your Password"), _react.default.createElement(_Form.default.Control, {
+      }, _react.default.createElement(_Form.default.Label, null, "Password"), _react.default.createElement(_Form.default.Control, {
         type: "password",
         name: "passwordForm",
         onChange: function onChange(event) {
@@ -38851,7 +38883,7 @@ function (_React$Component) {
         placeholder: "Password"
       })), _react.default.createElement(_Form.default.Group, {
         controlId: "formBasicEmail"
-      }, _react.default.createElement(_Form.default.Label, null, "Your Email"), _react.default.createElement(_Form.default.Control, {
+      }, _react.default.createElement(_Form.default.Label, null, "Email"), _react.default.createElement(_Form.default.Control, {
         type: "email",
         name: "emailForm",
         onChange: function onChange(event) {
@@ -38860,7 +38892,7 @@ function (_React$Component) {
         placeholder: "example@email.com"
       })), _react.default.createElement(_Form.default.Group, {
         controlId: "formBasicBirthday"
-      }, _react.default.createElement(_Form.default.Label, null, "Your Birthday"), _react.default.createElement(_Form.default.Control, {
+      }, _react.default.createElement(_Form.default.Label, null, "Birthday"), _react.default.createElement(_Form.default.Control, {
         type: "text",
         name: "birthdayForm",
         onChange: function onChange(event) {
@@ -38873,7 +38905,7 @@ function (_React$Component) {
         onClick: function onClick(event) {
           return _this5.handleSubmit(event);
         }
-      }, "CHANGE!")));
+      }, "Update")));
     }
   }]);
 
@@ -38881,7 +38913,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.ProfileView = ProfileView;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/Button.js","react-bootstrap/Form":"../node_modules/react-bootstrap/Form.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./profile-view.scss":"components/profile-view/profile-view.scss"}],"components/main-view/main-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/Button.js","./profile-view.scss":"components/profile-view/profile-view.scss","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/main-view/main-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -39018,39 +39050,37 @@ function (_React$Component) {
         console.log(error);
       });
     }
-  }, {
-    key: "onSignedIn",
-    value: function onSignedIn(user) {
-      this.setState({
-        user: user
-      });
-    }
     /*possibly don't need anymore???
+    onSignedIn(user) {
+     this.setState({
+       user: user
+     });
+    }
     onMovieClick(movie) {
-      this.setState({
-        selectedMovie: movie
-      });
+     this.setState({
+       selectedMovie: movie
+     });
     }
-     getBackClick() {
-      this.setState({
-        selectedMovie: null
-      });
+    getBackClick() {
+     this.setState({
+       selectedMovie: null
+     });
     }
-     onSignedIn(user) {
-      this.setState({
-        user: user,
-        register: false
-      });
+    onSignedIn(user) {
+     this.setState({
+       user: user,
+       register: false
+     });
     }
-     register() {
-      this.setState({
-        register: true
-      })
+    register() {
+     this.setState({
+       register: true
+     })
     }
-     alreadyMember() {
-      this.setState({
-        register: false
-      })
+    alreadyMember() {
+     this.setState({
+       register: false
+     })
     }
     */
 
@@ -39062,12 +39092,8 @@ function (_React$Component) {
       var _this$state = this.state,
           movies = _this$state.movies,
           user = _this$state.user,
-          profileData = _this$state.profileData;
-      if (!user) return _react.default.createElement(_loginView.LoginView, {
-        onLoggedIn: function onLoggedIn(user) {
-          return _this3.onLoggedIn(user);
-        }
-      });
+          profileData = _this$state.profileData; //if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
       });
@@ -39079,7 +39105,6 @@ function (_React$Component) {
         onClick: function onClick() {
           return _this3.onLogout();
         },
-        className: "logout-btn",
         variant: "outline-warning",
         size: "sm"
       }, "Log Out"), _react.default.createElement(_reactRouterDom.Link, {
@@ -39087,7 +39112,12 @@ function (_React$Component) {
       }, _react.default.createElement(_Button.default, {
         variant: "outline-warning",
         size: "sm"
-      }, "Profile"))), _react.default.createElement(_Row.default, null, _react.default.createElement(_reactRouterDom.Route, {
+      }, "Profile")), _react.default.createElement(_reactRouterDom.Link, {
+        to: "/"
+      }, _react.default.createElement(_Button.default, {
+        variant: "outline-warning",
+        size: "sm"
+      }, "Movies"))), _react.default.createElement(_Row.default, null, _react.default.createElement(_reactRouterDom.Route, {
         exact: true,
         path: "/",
         render: function render() {
@@ -39104,6 +39134,7 @@ function (_React$Component) {
           });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
+        exact: true,
         path: "/register",
         render: function render() {
           return _react.default.createElement(_registrationView.RegistrationView, null);

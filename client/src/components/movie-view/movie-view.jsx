@@ -1,5 +1,6 @@
 //import modules and files
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 
@@ -15,6 +16,28 @@ export class MovieView extends React.Component {
     //initialize the state to an empty object so it can destructured later
     this.state = {};
   }
+
+  //add movie to FavoriteList
+  handleSubmit(event) {
+    event.preventDefault();
+    axios.put(`https://cf-movie-list-api.herokuapp.com/users/${localStorage.getItem('user')}/movies/${this.props.movie._id}`, {
+      Username: localStorage.getItem('user')
+    }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      })
+      .then(response => {
+        console.log(response);
+        alert('Movie has been added to your Favorite List!');
+      })
+      .catch(event => {
+        console.log('error adding movie to list');
+        alert('Ooooops... Something went wrong!');
+      });
+  };
+
+
+
+
   render() {
     var { movie } = this.props;
     if (!movie) return null;
@@ -53,13 +76,15 @@ export class MovieView extends React.Component {
           <Link to={`/ratings/${movie.Rating.Type}`}><Button variant="outline-secondary">Rating</Button></Link>
         </div>
 
-        <Link to="/"><Button variant="outline-dark" size="sm">Back to Movie List</Button></Link>
+        <Button variant="outline-info" size="sm" onClick={event => this.handleSubmit(event)}>Add to Favorites</Button>
+        <Link to="/"><Button variant="outline-info" size="sm">Back to Movie List</Button></Link>
 
       </div>
     );
   }
 }
 
+/*
 //validate data existence and type
 MovieView.propTypes = {
   movie: PropTypes.shape({
@@ -72,4 +97,4 @@ MovieView.propTypes = {
     ImagePath: PropTypes.string.isRequired
   }).isRequired
   //onClick: PropTypes.func.isRequired
-};
+}; */

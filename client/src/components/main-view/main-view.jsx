@@ -79,50 +79,49 @@ export class MainView extends React.Component {
       });
   }
 
-  onSignedIn(user) {
-    this.setState({
-      user: user
-    });
-  }
-
-
   /*possibly don't need anymore???
-  onMovieClick(movie) {
-    this.setState({
-      selectedMovie: movie
-    });
-  }
+ onSignedIn(user) {
+   this.setState({
+     user: user
+   });
+ }
 
-  getBackClick() {
-    this.setState({
-      selectedMovie: null
-    });
-  }
+ onMovieClick(movie) {
+   this.setState({
+     selectedMovie: movie
+   });
+ }
 
-  onSignedIn(user) {
-    this.setState({
-      user: user,
-      register: false
-    });
-  }
+ getBackClick() {
+   this.setState({
+     selectedMovie: null
+   });
+ }
 
-  register() {
-    this.setState({
-      register: true
-    })
-  }
+ onSignedIn(user) {
+   this.setState({
+     user: user,
+     register: false
+   });
+ }
 
-  alreadyMember() {
-    this.setState({
-      register: false
-    })
-  }
-  */
+ register() {
+   this.setState({
+     register: true
+   })
+ }
+
+ alreadyMember() {
+   this.setState({
+     register: false
+   })
+ }
+ */
 
   render() {
     const { movies, user, profileData } = this.state;
 
-    if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+    //if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
     if (!movies) return <div className="main-view" />;
 
     return (
@@ -130,8 +129,9 @@ export class MainView extends React.Component {
         <div className="main-view">
           <Container>
             <Row className="nav">
-              <Button onClick={() => this.onLogout()} className="logout-btn" variant="outline-warning" size="sm">Log Out</Button>
+              <Button onClick={() => this.onLogout()} variant="outline-warning" size="sm">Log Out</Button>
               <Link to="/profile"><Button variant="outline-warning" size="sm">Profile</Button></Link>
+              <Link to="/"><Button variant="outline-warning" size="sm">Movies</Button></Link>
             </Row>
             <Row>
               <Route exact path="/" render={() => {
@@ -140,7 +140,8 @@ export class MainView extends React.Component {
               }
               } />
 
-              <Route path="/register" render={() => <RegistrationView />} />
+
+              <Route exact path="/register" render={() => <RegistrationView />} />
 
               <Route exact path="/profile" render={() => <ProfileView />} />
 
