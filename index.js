@@ -278,7 +278,8 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
   Email: String, (required)
   Birthday: Date
 }*/
-app.put('/users/:Username', passport.authenticate('jwt', { session: false }),
+// passport.authenticate('jwt', { session: false }),
+app.put('/users/:Username',
   [check('Username', 'Username is required.').isLength({ min: 5 }),
   check('Username', 'Username may only contain alphanumeric characters.').isAlphanumeric(),
   check('Password', 'Password is required.').not().isEmpty(),

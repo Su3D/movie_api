@@ -24,7 +24,7 @@ export function ProfileView(props) {
         <div className="value">Username: {username}</div>
         <div className="value">Password: ********</div>
         <div className="value">Email: {email}</div>
-        <div className="value">Birthday: {birthday.substr(0, 10)}</div>
+        <div className="value">Birthday: {birthday}</div>
         <Link to={`/userprofile/update`}>
           <Button className="update-btn" variant="link">
             Update user info...

@@ -38610,7 +38610,7 @@ function ProfileView(props) {
     className: "value"
   }, "Email: ", email), _react.default.createElement("div", {
     className: "value"
-  }, "Birthday: ", birthday.substr(0, 10)), _react.default.createElement(_reactRouterDom.Link, {
+  }, "Birthday: ", birthday), _react.default.createElement(_reactRouterDom.Link, {
     to: "/userprofile/update"
   }, _react.default.createElement(_Button.default, {
     className: "update-btn",
