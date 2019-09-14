@@ -38153,6 +38153,7 @@ function (_React$Component) {
     value: function handleSubmit(event) {
       console.log(localStorage.getItem('user'));
       console.log(this.props.movie._id);
+      console.log(localStorage.getItem('token'));
       event.preventDefault();
 
       _axios.default.put("https://cf-movie-list-api.herokuapp.com/users/".concat(localStorage.getItem('user'), "/movies/").concat(this.props.movie._id), {
@@ -38778,7 +38779,7 @@ function (_React$Component) {
     }
   }, {
     key: "toggleForm",
-    //toggle CHangeData form
+    //toggle Update Profile form
     value: function toggleForm() {
       var form = document.getElementsByClassName('changeDataForm')[0];
       var toggleButton = document.getElementById('toggleButton');
@@ -38834,19 +38835,9 @@ function (_React$Component) {
         className: "label"
       }, "Favorite Movies"), favoriteMovies.length === 0 && _react.default.createElement("div", {
         className: "value"
-      }, "Your Favorite Movie List is empty :-("), favoriteMovies.length > 0 && _react.default.createElement("div", {
+      }, "Your Favorite Movies List is empty."), favoriteMovies.length > 0 && _react.default.createElement("div", {
         className: "value"
-      }, favoriteMovies.map(function (favoriteMovie) {
-        return _react.default.createElement("p", {
-          key: favoriteMovie
-        }, JSON.parse(localStorage.getItem('movies')).find(function (movie) {
-          return movie._id === favoriteMovie;
-        }).Title, _react.default.createElement("span", {
-          onClick: function onClick(event) {
-            return _this5.deleteMovie(event, favoriteMovie);
-          }
-        }, " Delete"));
-      }))), _react.default.createElement(_Button.default, {
+      }, favoriteMovies)), _react.default.createElement(_Button.default, {
         id: "toggleButton",
         className: "view-btn",
         variant: "primary",

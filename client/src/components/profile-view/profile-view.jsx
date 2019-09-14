@@ -125,7 +125,7 @@ export class ProfileView extends React.Component {
       });
   };
 
-  //toggle CHangeData form
+  //toggle Update Profile form
   toggleForm() {
     let form = document.getElementsByClassName('changeDataForm')[0];
     let toggleButton = document.getElementById('toggleButton');
@@ -165,11 +165,20 @@ export class ProfileView extends React.Component {
         <div className="favoriteMovies">
           <div className="label">Favorite Movies</div>
           {favoriteMovies.length === 0 &&
-            <div className="value">Your Favorite Movie List is empty :-(</div>
+            <div className="value">Your Favorite Movies List is empty.</div>
           }
           {favoriteMovies.length > 0 &&
-            <div className="value">{favoriteMovies.map(favoriteMovie => (<p key={favoriteMovie}>{JSON.parse(localStorage.getItem('movies')).find(movie => movie._id === favoriteMovie).Title}<span onClick={(event) => this.deleteMovie(event, favoriteMovie)}> Delete</span></p>))}</div>
+            <div className="value">{favoriteMovies}</div>
           }
+
+          {/*ex mid -- favoriteMovies.length > 0 &&
+            <div className="value">{favoriteMovies.map(favoriteMovie => (<p key={favoriteMovie}>{JSON.parse(localStorage.getItem('movies')).find(movie => movie._id === favoriteMovie).Title}<span onClick={(event) => this.deleteMovie(event, favoriteMovie)}> Delete</span></p>))}</div>
+          */}
+
+          {/*ex latest -- favoriteMovies.length > 0 &&
+            <div className="value favorite-movies">{favoriteMovies.map(favoriteMovie => (<div className="movie-image" key={favoriteMovie}><img src={JSON.parse(localStorage.getItem('movies')).find(movie => movie._id === favoriteMovie).ImagePath} alt="Movie Cover"/><span onClick={(event) => this.deleteMovie(event, favoriteMovie)}> Delete</span></div>))}</div>
+          */}
+
         </div>
 
         {/*<Link to={'/'}><Button className="view-btn" variant="primary" type="button">BACK</Button></Link>*/}
