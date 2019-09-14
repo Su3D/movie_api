@@ -19,6 +19,8 @@ export class MovieView extends React.Component {
 
   //add movie to FavoriteList
   handleSubmit(event) {
+    console.log(localStorage.getItem('user'));
+    console.log(this.props.movie._id);
     event.preventDefault();
     axios.put(`https://cf-movie-list-api.herokuapp.com/users/${localStorage.getItem('user')}/movies/${this.props.movie._id}`, {
       Username: localStorage.getItem('user')

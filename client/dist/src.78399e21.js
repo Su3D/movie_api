@@ -38151,6 +38151,8 @@ function (_React$Component) {
   _createClass(MovieView, [{
     key: "handleSubmit",
     value: function handleSubmit(event) {
+      console.log(localStorage.getItem('user'));
+      console.log(this.props.movie._id);
       event.preventDefault();
 
       _axios.default.put("https://cf-movie-list-api.herokuapp.com/users/".concat(localStorage.getItem('user'), "/movies/").concat(this.props.movie._id), {
