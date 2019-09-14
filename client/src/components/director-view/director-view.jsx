@@ -55,6 +55,6 @@ DirectorView.propTypes = {
     Bio: PropTypes.string.isRequired,
     Birth: PropTypes.string,
     Death: PropTypes.string
-  }).isRequired,
+  }).isRequired
   //onClick: PropTypes.func.isRequired
 };

@@ -4,8 +4,10 @@ import axios from 'axios';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import Button from 'react-bootstrap/Button';
 
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
@@ -14,6 +16,8 @@ import { MovieView } from '../movie-view/movie-view';
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
 import { RatingView } from '../rating-view/rating-view';
+import { ProfileView } from "../profile-view/profile-view";
+import { ProfileUpdate } from "../profile-view/profile-view";
 
 import './main-view.scss';
 
@@ -23,9 +27,9 @@ export class MainView extends React.Component {
     super();
     this.state = {
       movies: [],
-      //selectedMovie: null,
       user: null,
-      //register: false
+      email: null,
+      birthday: null
     };
   }
 
@@ -43,15 +47,44 @@ export class MainView extends React.Component {
       });
   }
 
+  getUser(user, token) {
+    axios.get('https://cf-movie-list-api.herokuapp.com/users' + user, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(response => {
+        this.setState({ //assign result to state
+          email: response.data.Email,
+          birthday: response.data.Birthday,
+          token: token
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+  /*mine
+    componentDidMount() {
+      let accessToken = localStorage.getItem('token');
+      if (accessToken !== null) {
+        this.setState({
+          user: localStorage.getItem('user')
+        });
+        this.getMovies(accessToken);
+      }
+    }*/
   componentDidMount() {
-    let accessToken = localStorage.getItem('token');
+    let accessToken = localStorage.getItem("token");
     if (accessToken !== null) {
+      let user = localStorage.getItem("user");
       this.setState({
-        user: localStorage.getItem('user')
+        user: localStorage.getItem("user")
       });
       this.getMovies(accessToken);
+      this.getUser(user, accessToken);
     }
   }
+
+
 
   onLoggedIn(authData) {
     console.log(authData);
@@ -63,13 +96,22 @@ export class MainView extends React.Component {
     this.getMovies(authData.token);
   }
 
+  onLogout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    this.setState({
+      user: null
+    });
+  }
+
+  /*possibly don't need anymore???
   onMovieClick(movie) {
     this.setState({
       selectedMovie: movie
     });
   }
 
-  /*possibly don't need anymore???
   getBackClick() {
     this.setState({
       selectedMovie: null
@@ -97,7 +139,7 @@ export class MainView extends React.Component {
   */
 
   render() {
-    const { movies, user } = this.state;
+    const { movies, user, email, birthday, token } = this.state;
 
     //if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
     if (!movies) return <div className="main-view" />;
@@ -106,6 +148,10 @@ export class MainView extends React.Component {
       <Router>
         <div className="main-view">
           <Container>
+            <Row className="nav">
+              <Button onClick={() => this.onLogout()} className="logout-btn" variant="outline-warning" size="sm">Log Out</Button>
+              <Link to="/userprofile"><Button variant="outline-warning" size="sm">Profile</Button></Link>
+            </Row>
             <Row>
               <Route exact path="/" render={() => {
                 if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
@@ -114,6 +160,10 @@ export class MainView extends React.Component {
               } />
 
               <Route path="/register" render={() => <RegistrationView />} />
+
+              <Route exact path="/userprofile" render={() => (<ProfileView user={user} email={email} birthday={birthday} />)} />
+
+              <Route exact path="/userprofile/update" render={() => <ProfileUpdate user={user} token={token} />} />
 
               <Route path="/movies/:movieId" render={({ match }) => <MovieView movie={movies.find(m => m._id === match.params.movieId)} />} />
 
@@ -136,7 +186,6 @@ export class MainView extends React.Component {
               } />
             </Row>
           </Container>
-          <button >LogOut</button>
         </div>
       </Router>
     );

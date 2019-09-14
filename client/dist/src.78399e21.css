@@ -55,6 +55,11 @@
 .movie-view button {
   margin-top: 50px;
 }
+
+.movie-view .movie-more-info button {
+  margin-top: 0;
+  margin-right: 15px;
+}
 .director-view {
   margin-top: 25px;
 }
@@ -133,8 +138,21 @@
 .rating-view button {
   margin-top: 50px;
 }
+.login-view {
+  width: 60%;
+  margin: 10px auto;
+}
+
+.login-form {
+  margin: 10px 0 50px;
+}
 .main-view {
   margin-left: 10px;
+}
+
+.nav button {
+  margin-top: 10px;
+  margin-right: 15px;
 }
 * {
   box-sizing: border-box;

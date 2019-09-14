@@ -17,8 +17,7 @@ export class RatingView extends React.Component {
   }
   render() {
     var { rating } = this.props;
-
-    if (!genre) return null;
+    if (!rating) return null;
 
     return (
       <div className="rating-view">
@@ -39,18 +38,12 @@ export class RatingView extends React.Component {
   }
 }
 
-/*
+
 //validate data existence and type
-MovieView.propTypes = {
-  movie: PropTypes.shape({
-    Title: PropTypes.string.isRequired,
-    Year: PropTypes.string.isRequired,
-    Description: PropTypes.string.isRequired,
-    Director: PropTypes.shape({
-      Name: PropTypes.string.isRequired
-    }).isRequired,
-    ImagePath: PropTypes.string.isRequired
-  }).isRequired,
+RatingView.propTypes = {
+  rating: PropTypes.shape({
+    Type: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired
+  }).isRequired
   //onClick: PropTypes.func.isRequired
 };
-*/

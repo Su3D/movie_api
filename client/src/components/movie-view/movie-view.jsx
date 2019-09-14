@@ -46,13 +46,15 @@ export class MovieView extends React.Component {
           <div className="label">Director</div>
           <div className="value">{movie.Director.Name}</div>
         </div>
+        <h4>More Information</h4>
+        <div className="movie-more-info movie-item">
+          <Link to={`/directors/${movie.Director.Name}`}><Button variant="outline-secondary">Director</Button></Link>
+          <Link to={`/genres/${movie.Genre.Type}`}><Button variant="outline-secondary">Genre</Button></Link>
+          <Link to={`/ratings/${movie.Rating.Type}`}><Button variant="outline-secondary">Rating</Button></Link>
+        </div>
+
         <Link to="/"><Button variant="outline-dark" size="sm">Back to Movie List</Button></Link>
 
-        <Link to={`/directors/${movie.Director.Name}`}><Button variant="link">Director</Button></Link>
-
-        <Link to={`/genres/${movie.Genre.Type}`}><Button variant="link">Genre</Button></Link>
-
-        <Link to={`/ratings/${movie.Rating.Type}`}><Button variant="link">Rating</Button></Link>
       </div>
     );
   }
@@ -68,6 +70,6 @@ MovieView.propTypes = {
       Name: PropTypes.string.isRequired
     }).isRequired,
     ImagePath: PropTypes.string.isRequired
-  }).isRequired,
+  }).isRequired
   //onClick: PropTypes.func.isRequired
 };
