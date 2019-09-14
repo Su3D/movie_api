@@ -28,19 +28,23 @@ export class MainView extends React.Component {
     this.state = {
       movies: [],
       user: null,
-      email: null,
-      birthday: null
+      profileData: null
     };
   }
 
   onLoggedIn(authData) {
     console.log(authData);
     this.setState({
-      user: authData.user.Username
+      user: authData.user.Username,
+      profileData: authData.user
     });
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
     this.getMovies(authData.token);
+
+    //show buttons when logged in
+    let navbar = document.getElementsByClassName('nav')[0];
+    navbar.classList.add('show-nav');
   }
 
   onLogout() {
@@ -54,6 +58,15 @@ export class MainView extends React.Component {
     window.open('/', '_self');
   }
 
+  componentDidMount() {
+    let accessToken = localStorage.getItem('token');
+    if (accessToken !== null) {
+      this.setState({
+        user: localStorage.getItem('user')
+      });
+      this.getMovies(accessToken);
+    }
+  }
 
   getMovies(token) {
     axios.get('https://cf-movie-list-api.herokuapp.com/movies', {
@@ -69,41 +82,12 @@ export class MainView extends React.Component {
       });
   }
 
-  getUser(user, token) {
-    axios.get('https://cf-movie-list-api.herokuapp.com/users/' + user, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(response => {
-        this.setState({ //assign result to state
-          email: response.data.Email,
-          birthday: response.data.Birthday
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  onSignedIn(user) {
+    this.setState({
+      user: user
+    });
   }
-  /*mine
-    componentDidMount() {
-      let accessToken = localStorage.getItem('token');
-      if (accessToken !== null) {
-        this.setState({
-          user: localStorage.getItem('user')
-        });
-        this.getMovies(accessToken);
-      }
-    }*/
-  componentDidMount() {
-    let accessToken = localStorage.getItem("token");
-    if (accessToken !== null) {
-      let user = localStorage.getItem("user");
-      this.setState({
-        user: localStorage.getItem("user")
-      });
-      this.getMovies(accessToken);
-      this.getUser(user, accessToken);
-    }
-  }
+
 
   /*possibly don't need anymore???
   onMovieClick(movie) {
@@ -161,9 +145,7 @@ export class MainView extends React.Component {
 
               <Route path="/register" render={() => <RegistrationView />} />
 
-              <Route exact path="/userprofile" render={() => (<ProfileView user={user} email={email} birthday={birthday} />)} />
-
-              <Route exact path="/userprofile/update" render={() => <ProfileUpdate user={user} token={token} />} />
+              <Route exact path="/profile" render={() => <ProfileView user={profileData} />} />
 
               <Route path="/movies/:movieId" render={({ match }) => <MovieView movie={movies.find(m => m._id === match.params.movieId)} />} />
 

@@ -38560,159 +38560,264 @@ module.hot.accept(reloadCSS);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ProfileView = ProfileView;
-exports.ProfileUpdate = ProfileUpdate;
+exports.ProfileView = void 0;
 
-var _react = _interopRequireWildcard(require("react"));
+var _react = _interopRequireDefault(require("react"));
 
 var _axios = _interopRequireDefault(require("axios"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
+var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
 var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
 
-var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
+var _reactRouterDom = require("react-router-dom");
 
 require("./profile-view.scss");
 
-var _reactRouterDom = require("react-router-dom");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function ProfileView(props) {
-  var username = props.user,
-      email = props.email,
-      birthday = props.birthday;
-  return _react.default.createElement("div", {
-    className: "user-profile"
-  }, _react.default.createElement(_Button.default, {
-    className: "deregister-btn",
-    variant: "primary"
-  }, "Delete profile"), _react.default.createElement("div", {
-    className: "container"
-  }, _react.default.createElement("div", {
-    className: "label h5"
-  }, "User Profile"), _react.default.createElement("div", {
-    className: "value"
-  }, "Username: ", username), _react.default.createElement("div", {
-    className: "value"
-  }, "Password: ********"), _react.default.createElement("div", {
-    className: "value"
-  }, "Email: ", email), _react.default.createElement("div", {
-    className: "value"
-  }, "Birthday: ", birthday), _react.default.createElement(_reactRouterDom.Link, {
-    to: "/userprofile/update"
-  }, _react.default.createElement(_Button.default, {
-    className: "update-btn",
-    variant: "link"
-  }, "Update user info..."))), _react.default.createElement("div", {
-    className: "container"
-  }, _react.default.createElement("div", {
-    className: "label h5"
-  }, "Favorite movies")));
-}
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function ProfileUpdate(props) {
-  var _useState = (0, _react.useState)(""),
-      _useState2 = _slicedToArray(_useState, 2),
-      username = _useState2[0],
-      setUsername = _useState2[1];
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-  var _useState3 = (0, _react.useState)(""),
-      _useState4 = _slicedToArray(_useState3, 2),
-      password = _useState4[0],
-      setPassword = _useState4[1];
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-  var _useState5 = (0, _react.useState)(""),
-      _useState6 = _slicedToArray(_useState5, 2),
-      email = _useState6[0],
-      setEmail = _useState6[1];
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
-  var _useState7 = (0, _react.useState)(""),
-      _useState8 = _slicedToArray(_useState7, 2),
-      birthday = _useState8[0],
-      setBirthday = _useState8[1];
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-  var user = props.user;
-  var token = props.token;
+////////////
+// DECLARE AND EXPORT COMPONENTS
+////////////
+var ProfileView =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(ProfileView, _React$Component);
 
-  var handleUpdate = function handleUpdate(e) {
-    e.preventDefault();
+  function ProfileView() {
+    var _this;
 
-    _axios.default.put("https://cf-movie-list-api.herokuapp.com/users/" + user, {
-      headers: {
-        Authorization: "Bearer ".concat(token)
+    _classCallCheck(this, ProfileView);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ProfileView).call(this));
+    _this.state = {
+      username: null,
+      password: null,
+      email: null,
+      birthday: null
+    };
+    return _this;
+  } //delete user
+
+
+  _createClass(ProfileView, [{
+    key: "deleteUser",
+    value: function deleteUser(event) {
+      event.preventDefault();
+
+      _axios.default.delete("https://cf-movie-list-api.herokuapp.com/users/".concat(this.props.user.Username), {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('token'))
+        }
+      }).then(function (response) {
+        alert('Your Account has been deleted!'); //clears storage
+
+        localStorage.removeItem('token');
+        localStorage.removeItem('user'); //opens login view
+
+        window.open('/', '_self');
+      }).catch(function (event) {
+        alert('failed to delete user');
+      });
+    } //handle the changes
+
+  }, {
+    key: "handleChange",
+    value: function handleChange(event) {
+      this.setState(_defineProperty({}, event.target.name, event.target.value));
+    } //update user data
+
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(event) {
+      var _this2 = this;
+
+      event.preventDefault();
+      console.log(this.state.username);
+
+      _axios.default.put("https://cf-movie-list-api.herokuapp.com/users/".concat(this.props.user.Username), {
+        Username: this.state.username,
+        Password: this.state.password,
+        EMail: this.state.email,
+        Birthday: this.state.birthday
+      }, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('token'))
+        }
+      }).then(function (response) {
+        console.log(response);
+        alert('Your data has been updated!'); //update localStorage
+
+        localStorage.setItem('user', _this2.state.username);
+      }).catch(function (event) {
+        console.log('error updating the userdata');
+        alert('Ooooops... Something went wrong!');
+      });
+    }
+  }, {
+    key: "toggleForm",
+    value: function toggleForm() {
+      var form = document.getElementsByClassName('changeDataForm')[0];
+      var toggleButton = document.getElementById('toggleButton');
+      form.classList.toggle('show-form');
+
+      if (form.classList.contains('show-form')) {
+        toggleButton.innerHTML = 'CHANGE DATA &uarr;';
+      } else {
+        toggleButton.innerHTML = 'CHANGE DATA &darr;';
       }
-    }, {
-      Username: username,
-      Password: password,
-      Email: email,
-      Birthday: birthday
-    }).then(function (response) {
-      var data = response.data;
-      props.onLoggedIn(data);
-    }).catch(function (e) {
-      console.log("Error updating the user info.");
-    });
-  };
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this3 = this;
 
-  return _react.default.createElement("div", {
-    className: "user-profile"
-  }, _react.default.createElement(_Form.default, null, "Please update your profile information.", _react.default.createElement(_Form.default.Group, {
-    controlId: "formUsername"
-  }, _react.default.createElement(_Form.default.Label, null, "Username: "), _react.default.createElement(_Form.default.Control, {
-    type: "text",
-    value: username,
-    onChange: function onChange(e) {
-      return setUsername(e.target.value);
-    },
-    placeholder: "Pick a username"
-  })), _react.default.createElement(_Form.default.Group, {
-    controlId: "formPassword"
-  }, _react.default.createElement(_Form.default.Label, null, "Password: "), _react.default.createElement(_Form.default.Control, {
-    type: "password",
-    value: password,
-    onChange: function onChange(e) {
-      return setPassword(e.target.value);
-    },
-    placeholder: "Pick a password"
-  })), _react.default.createElement(_Form.default.Group, {
-    controlId: "formEmail"
-  }, _react.default.createElement(_Form.default.Label, null, "Email: "), _react.default.createElement(_Form.default.Control, {
-    type: "email",
-    value: email,
-    onChange: function onChange(e) {
-      return setEmail(e.target.value);
-    },
-    placeholder: "Please provide your email"
-  })), _react.default.createElement(_Form.default.Group, {
-    controlId: "formBirthday"
-  }, _react.default.createElement(_Form.default.Label, null, "Birthday: "), _react.default.createElement(_Form.default.Control, {
-    type: "date",
-    value: birthday,
-    onChange: function onChange(e) {
-      return setBirthday(e.target.value);
-    },
-    placeholder: "Please provide your birthday in format mm-dd-yyyy"
-  })), _react.default.createElement(_Button.default, {
-    variant: "primary",
-    type: "submit",
-    onClick: handleUpdate
-  }, "Update"), _react.default.createElement(_Form.default.Text, {
-    className: "text-muted"
-  }, "We will never share your personal information with anyone else.")));
-}
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/Button.js","./profile-view.scss":"components/profile-view/profile-view.scss","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/main-view/main-view.scss":[function(require,module,exports) {
+      var user = this.props.user;
+      if (!user) return null;
+      return _react.default.createElement("div", {
+        className: "profile-view"
+      }, _react.default.createElement("h1", null, "Your Profile Data"), _react.default.createElement("div", {
+        className: "username"
+      }, _react.default.createElement("div", {
+        className: "label"
+      }, "Name"), _react.default.createElement("div", {
+        className: "value"
+      }, user.Username)), _react.default.createElement("div", {
+        className: "password"
+      }, _react.default.createElement("div", {
+        className: "label"
+      }, "Password"), _react.default.createElement("div", {
+        className: "value"
+      }, "***********")), _react.default.createElement("div", {
+        className: "birthday"
+      }, _react.default.createElement("div", {
+        className: "label"
+      }, "Birthday"), _react.default.createElement("div", {
+        className: "value"
+      }, user.Birthday)), _react.default.createElement("div", {
+        className: "email"
+      }, _react.default.createElement("div", {
+        className: "label"
+      }, "EMail"), _react.default.createElement("div", {
+        className: "value"
+      }, user.EMail)), _react.default.createElement("div", {
+        className: "favoriteMovies"
+      }, _react.default.createElement("div", {
+        className: "label"
+      }, "Favorite Movies"), _react.default.createElement("div", {
+        className: "value"
+      }, user.FavoriteMovies)), _react.default.createElement(_reactRouterDom.Link, {
+        to: '/'
+      }, _react.default.createElement(_Button.default, {
+        className: "view-btn",
+        variant: "primary",
+        type: "button"
+      }, "BACK")), _react.default.createElement(_Button.default, {
+        className: "view-btn",
+        variant: "primary",
+        type: "button",
+        onClick: function onClick(event) {
+          return _this3.deleteUser(event);
+        }
+      }, "DELETE"), _react.default.createElement(_Button.default, {
+        id: "toggleButton",
+        className: "view-btn",
+        variant: "primary",
+        type: "button",
+        onClick: function onClick() {
+          return _this3.toggleForm();
+        }
+      }, "CHANGE DATA \u2193"), _react.default.createElement(_Form.default, {
+        className: "changeDataForm"
+      }, _react.default.createElement("h2", null, "Change Data"), _react.default.createElement(_Form.default.Group, {
+        controlId: "formBasicUsername"
+      }, _react.default.createElement(_Form.default.Label, null, "Your Username"), _react.default.createElement(_Form.default.Control, {
+        type: "text",
+        name: "username",
+        onChange: function onChange(event) {
+          return _this3.handleChange(event);
+        },
+        placeholder: "Enter Username"
+      }), _react.default.createElement(_Form.default.Text, {
+        className: "text-muted"
+      }, "Type your username here.")), _react.default.createElement(_Form.default.Group, {
+        controlId: "formBasicPassword"
+      }, _react.default.createElement(_Form.default.Label, null, "Your Password"), _react.default.createElement(_Form.default.Control, {
+        type: "password",
+        name: "password",
+        onChange: function onChange(event) {
+          return _this3.handleChange(event);
+        },
+        placeholder: "Password"
+      })), _react.default.createElement(_Form.default.Group, {
+        controlId: "formBasicEmail"
+      }, _react.default.createElement(_Form.default.Label, null, "Your Email"), _react.default.createElement(_Form.default.Control, {
+        type: "email",
+        name: "email",
+        onChange: function onChange(event) {
+          return _this3.handleChange(event);
+        },
+        placeholder: "example@ema.il"
+      })), _react.default.createElement(_Form.default.Group, {
+        controlId: "formBasicBirthday"
+      }, _react.default.createElement(_Form.default.Label, null, "Your Birthday"), _react.default.createElement(_Form.default.Control, {
+        type: "text",
+        name: "birthday",
+        onChange: function onChange(event) {
+          return _this3.handleChange(event);
+        },
+        placeholder: "01.01.2000"
+      })), _react.default.createElement(_Button.default, {
+        variant: "primary",
+        type: "button",
+        onClick: function onClick(event) {
+          return _this3.handleSubmit(event);
+        }
+      }, "CHANGE!")));
+    }
+  }]);
+
+  return ProfileView;
+}(_react.default.Component); ////////////
+// DEFINING PROPTYPES
+////////////
+// ProfileView.propTypes = {
+//   movie: PropTypes.shape({
+//     Title: PropTypes.string,
+//     Description: PropTypes.string,
+//     ImagePath: PropTypes.string,
+//     Genre: PropTypes.shape({
+//       Name: PropTypes.string
+//     }),
+//     Director: PropTypes.shape({
+//       Name: PropTypes.string
+//     })
+//   }).isRequired
+// };
+
+
+exports.ProfileView = ProfileView;
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/Button.js","react-bootstrap/Form":"../node_modules/react-bootstrap/Form.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./profile-view.scss":"components/profile-view/profile-view.scss"}],"components/main-view/main-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -38792,8 +38897,7 @@ function (_React$Component) {
     _this.state = {
       movies: [],
       user: null,
-      email: null,
-      birthday: null
+      profileData: null
     };
     return _this;
   }
@@ -38803,11 +38907,15 @@ function (_React$Component) {
     value: function onLoggedIn(authData) {
       console.log(authData);
       this.setState({
-        user: authData.user.Username
+        user: authData.user.Username,
+        profileData: authData.user
       });
       localStorage.setItem('token', authData.token);
       localStorage.setItem('user', authData.user.Username);
-      this.getMovies(authData.token);
+      this.getMovies(authData.token); //show buttons when logged in
+
+      var navbar = document.getElementsByClassName('nav')[0];
+      navbar.classList.add('show-nav');
     }
   }, {
     key: "onLogout",
@@ -38818,6 +38926,18 @@ function (_React$Component) {
         user: null
       });
       window.open('/', '_self');
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var accessToken = localStorage.getItem('token');
+
+      if (accessToken !== null) {
+        this.setState({
+          user: localStorage.getItem('user')
+        });
+        this.getMovies(accessToken);
+      }
     }
   }, {
     key: "getMovies",
@@ -38838,48 +38958,11 @@ function (_React$Component) {
       });
     }
   }, {
-    key: "getUser",
-    value: function getUser(user, token) {
-      var _this3 = this;
-
-      _axios.default.get('https://cf-movie-list-api.herokuapp.com/users/' + user, {
-        headers: {
-          Authorization: "Bearer ".concat(token)
-        }
-      }).then(function (response) {
-        _this3.setState({
-          //assign result to state
-          email: response.data.Email,
-          birthday: response.data.Birthday
-        });
-      }).catch(function (error) {
-        console.log(error);
+    key: "onSignedIn",
+    value: function onSignedIn(user) {
+      this.setState({
+        user: user
       });
-    }
-    /*mine
-      componentDidMount() {
-        let accessToken = localStorage.getItem('token');
-        if (accessToken !== null) {
-          this.setState({
-            user: localStorage.getItem('user')
-          });
-          this.getMovies(accessToken);
-        }
-      }*/
-
-  }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var accessToken = localStorage.getItem("token");
-
-      if (accessToken !== null) {
-        var user = localStorage.getItem("user");
-        this.setState({
-          user: localStorage.getItem("user")
-        });
-        this.getMovies(accessToken);
-        this.getUser(user, accessToken);
-      }
     }
     /*possibly don't need anymore???
     onMovieClick(movie) {
@@ -38913,7 +38996,7 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this3 = this;
 
       var _this$state = this.state,
           movies = _this$state.movies,
@@ -38931,7 +39014,7 @@ function (_React$Component) {
         className: "nav"
       }, _react.default.createElement(_Button.default, {
         onClick: function onClick() {
-          return _this4.onLogout();
+          return _this3.onLogout();
         },
         className: "logout-btn",
         variant: "outline-warning",
@@ -38947,7 +39030,7 @@ function (_React$Component) {
         render: function render() {
           if (!user) return _react.default.createElement(_loginView.LoginView, {
             onLoggedIn: function onLoggedIn(user) {
-              return _this4.onLoggedIn(user);
+              return _this3.onLoggedIn(user);
             }
           });
           return movies.map(function (m) {
@@ -38964,21 +39047,10 @@ function (_React$Component) {
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
         exact: true,
-        path: "/userprofile",
+        path: "/profile",
         render: function render() {
           return _react.default.createElement(_profileView.ProfileView, {
-            user: user,
-            email: email,
-            birthday: birthday
-          });
-        }
-      }), _react.default.createElement(_reactRouterDom.Route, {
-        exact: true,
-        path: "/userprofile/update",
-        render: function render() {
-          return _react.default.createElement(_profileView.ProfileUpdate, {
-            user: user,
-            token: token
+            user: profileData
           });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {

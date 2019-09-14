@@ -279,6 +279,7 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
   Birthday: Date
 }*/
 // passport.authenticate('jwt', { session: false }),
+/*mine
 app.put('/users/:Username',
   [check('Username', 'Username is required.').isLength({ min: 5 }),
   check('Username', 'Username may only contain alphanumeric characters.').isAlphanumeric(),
@@ -322,7 +323,58 @@ app.post('/users/:Username/movies/:_id', passport.authenticate('jwt', { session:
       console.error(error);
       res.status(500).send('Error: ' + error);
     });
-});
+});*/
+
+app.put("/users/:Username", passport.authenticate("jwt", {
+  session: false
+}),
+  function (req, res) {
+    req.checkBody("Username", "Username is required.").notEmpty();
+    req
+      .checkBody(
+        "Username",
+        "Username contains non alphanumeric characters - not allowed."
+      )
+      .isAlphanumeric();
+    req.checkBody("Password", "Password is required").notEmpty();
+    req.checkBody("Email", "Email is required.").notEmpty();
+    req.checkBody("Email", "Email does not appear to be valid.").isEmail();
+
+    // check the validation object for errors
+    var errors = req.validationErrors();
+
+    if (errors) {
+      return res.status(422).json({
+        errors: errors
+      });
+    }
+
+    var hashedPassword = Users.hashPassword(req.body.Password);
+    Users.update({
+      Username: req.params.Username
+    }, {
+        $set: {
+          Username: req.body.Username,
+          Password: hashedPassword,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday
+        }
+      }, {
+        new: true
+      }, // This line makes sure that the updated document is returned
+      function (err, updatedUser) {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error: " + err);
+        } else {
+          res.json(updatedUser);
+        }
+      }
+    );
+  }
+);
+
+
 
 //allow users to remove a movie from their favorites list (by username & movie ID) [DELETE]
 app.delete('/users/:Username/movies/:_id', passport.authenticate('jwt', { session: false }), (req, res) => {
