@@ -155,7 +155,7 @@ export class ProfileView extends React.Component {
         </div>
         <div className="birthday">
           <div className="label">Birthday</div>
-          <div className="value">{birthday}</div>
+          <div className="value">{birthday.substr(0, 10)}</div>
         </div>
         <div className="email">
           <div className="label">Email</div>
@@ -170,14 +170,6 @@ export class ProfileView extends React.Component {
           {favoriteMovies.length > 0 &&
             <div className="value">{favoriteMovies}</div>
           }
-
-          {/*ex mid -- favoriteMovies.length > 0 &&
-            <div className="value">{favoriteMovies.map(favoriteMovie => (<p key={favoriteMovie}>{JSON.parse(localStorage.getItem('movies')).find(movie => movie._id === favoriteMovie).Title}<span onClick={(event) => this.deleteMovie(event, favoriteMovie)}> Delete</span></p>))}</div>
-          */}
-
-          {/*ex latest -- favoriteMovies.length > 0 &&
-            <div className="value favorite-movies">{favoriteMovies.map(favoriteMovie => (<div className="movie-image" key={favoriteMovie}><img src={JSON.parse(localStorage.getItem('movies')).find(movie => movie._id === favoriteMovie).ImagePath} alt="Movie Cover"/><span onClick={(event) => this.deleteMovie(event, favoriteMovie)}> Delete</span></div>))}</div>
-          */}
 
         </div>
 

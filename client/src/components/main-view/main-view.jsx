@@ -28,7 +28,7 @@ export class MainView extends React.Component {
     this.state = {
       movies: [],
       user: null,
-      profileData: null
+      profileData: null,
     };
   }
 
@@ -46,7 +46,8 @@ export class MainView extends React.Component {
     console.log(authData);
     this.setState({
       user: authData.user.Username,
-      profileData: authData.user
+      profileData: authData.user,
+      token: authData.token
     });
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
@@ -78,6 +79,7 @@ export class MainView extends React.Component {
         console.log(error);
       });
   }
+
 
   /*possibly don't need anymore???
  onSignedIn(user) {
@@ -133,13 +135,13 @@ export class MainView extends React.Component {
               <Link to="/profile"><Button variant="outline-warning" size="sm">Profile</Button></Link>
               <Link to="/"><Button variant="outline-warning" size="sm">Movies</Button></Link>
             </Row>
+
             <Row>
               <Route exact path="/" render={() => {
                 if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
                 return movies.map(m => <MovieCard key={m._id} movie={m} />)
               }
               } />
-
 
               <Route exact path="/register" render={() => <RegistrationView />} />
 

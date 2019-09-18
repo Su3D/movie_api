@@ -56,9 +56,10 @@ export function LoginView(props) {
     </div>)
 }
 
-
+/*
 //validate data existence and type
 LoginView.propTypes = {
-  onLoggedIn: PropTypes.func.isRequired
-  //onClick: PropTypes.func.isRequired
+  onLoggedIn: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired
 };
+*/

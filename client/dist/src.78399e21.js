@@ -37633,13 +37633,14 @@ function LoginView(props) {
     variant: "outline-secondary",
     size: "sm"
   }, "Register")));
-} //validate data existence and type
-
-
+}
+/*
+//validate data existence and type
 LoginView.propTypes = {
-  onLoggedIn: _propTypes.default.func.isRequired //onClick: PropTypes.func.isRequired
-
+  onLoggedIn: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired
 };
+*/
 },{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/Button.js","./login-view.scss":"components/login-view/login-view.scss","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
@@ -38823,7 +38824,7 @@ function (_React$Component) {
         className: "label"
       }, "Birthday"), _react.default.createElement("div", {
         className: "value"
-      }, birthday)), _react.default.createElement("div", {
+      }, birthday.substr(0, 10))), _react.default.createElement("div", {
         className: "email"
       }, _react.default.createElement("div", {
         className: "label"
@@ -39009,7 +39010,8 @@ function (_React$Component) {
       console.log(authData);
       this.setState({
         user: authData.user.Username,
-        profileData: authData.user
+        profileData: authData.user,
+        token: authData.token
       });
       localStorage.setItem('token', authData.token);
       localStorage.setItem('user', authData.user.Username);
@@ -39310,7 +39312,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63489" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52040" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
