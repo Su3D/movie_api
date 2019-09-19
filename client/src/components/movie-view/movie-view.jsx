@@ -80,7 +80,7 @@ export class MovieView extends React.Component {
           <Link to={`/ratings/${movie.Rating.Type}`}><Button variant="outline-secondary">Rating</Button></Link>
         </div>
 
-        <Button variant="outline-info" size="sm" onClick={event => this.handleSubmit(event)}>Add to Favorites</Button>
+        {/*<Button variant="outline-info" size="sm" onClick={event => this.handleSubmit(event)}>Add to Favorites</Button>*/}
         <Link to="/"><Button variant="outline-info" size="sm">Back to Movie List</Button></Link>
 
       </div>

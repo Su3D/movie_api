@@ -9,3 +9,62 @@
 .card-text {
   font-size:  90%;
 }
+
+* {
+  box-sizing: border-box;
+  margin: 2%;
+}
+
+.card-body {
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1.6;
+  padding: 1%;
+}
+
+.card {
+  margin: 1%;
+  padding: 2%;
+  align-self: center;
+  border-radius: 0%;
+}
+
+.card-deck {
+  margin-top: 0%;
+  flex-flow: column;
+}
+
+.flexbox {
+  position: absolute;
+  margin-right: 0%;
+  margin-left: 85%;
+}
+
+
+@keyframes favme-hover {
+  from {
+      font-size: 26px;
+  }
+
+  50% {
+      font-size: 28px;
+  }
+
+  100% {
+      font-size: 26px;
+  }
+}
+
+.favme {
+  font-size: 26px;
+  cursor: pointer;
+  color: #CBCDCE;
+
+  &.active {
+      color: #BD2099;
+  }
+
+  &:hover {
+      animation: favme-hover .3s;
+  }
+}
