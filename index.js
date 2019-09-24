@@ -5,7 +5,8 @@ const express = require("express"),
   mongoose = require("mongoose"),
   Models = require("./models.js"),
   passport = require("passport"),
-  cors = require("cors");
+  cors = require("cors"),
+  path = require("path");
 require("./passport");
 
 const app = express(),
@@ -254,15 +255,15 @@ app.put("/users/:Username", passport.authenticate("jwt", {
     Users.update({
       Username: req.params.Username
     }, {
-        $set: {
-          Username: req.body.Username,
-          Password: hashedPassword,
-          Email: req.body.Email,
-          Birthday: req.body.Birthday
-        }
-      }, {
-        new: true
-      }, // This line makes sure that the updated document is returned
+      $set: {
+        Username: req.body.Username,
+        Password: hashedPassword,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday
+      }
+    }, {
+      new: true
+    }, // This line makes sure that the updated document is returned
       function (err, updatedUser) {
         if (err) {
           console.error(err);
@@ -285,12 +286,12 @@ app.post(
     Users.findOneAndUpdate({
       Username: req.params.Username
     }, {
-        $push: {
-          FavoriteMovies: req.params.MovieID
-        }
-      }, {
-        new: true
-      }, // This line makes sure that the updated document is returned
+      $push: {
+        FavoriteMovies: req.params.MovieID
+      }
+    }, {
+      new: true
+    }, // This line makes sure that the updated document is returned
       function (err, updatedUser) {
         if (err) {
           console.error(err);
@@ -313,12 +314,12 @@ app.delete(
     Users.findOneAndUpdate({
       Username: req.params.Username
     }, {
-        $pull: {
-          FavoriteMovies: req.params.MovieID
-        }
-      }, {
-        new: true
-      }, // This line makes sure that the updated document is returned
+      $pull: {
+        FavoriteMovies: req.params.MovieID
+      }
+    }, {
+      new: true
+    }, // This line makes sure that the updated document is returned
       function (err, updatedUser) {
         if (err) {
           console.error(err);
@@ -369,6 +370,12 @@ app.get("/", function (req, res) {
 
 //access requested file from "public" folder
 app.use(express.static("public"));
+//access requested file from "client" folder
+app.use('/client', express.static(path.join(__dirname, 'dist')));
+
+app.get("/client/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
 
 app.use(function (err, req, res, next) {
   console.error(err.stack);
