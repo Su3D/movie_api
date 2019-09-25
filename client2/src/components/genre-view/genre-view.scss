@@ -1,0 +1,20 @@
+.genre-view {
+  margin-top:25px;
+}
+
+.label, .value  {
+  display: inline;
+}
+
+.label  {
+  font-weight: bold;
+}
+
+.label::after {
+  content: ":";
+  margin-right: 5px;
+}
+
+.genre-item {padding-top: 10px;}
+
+.genre-view button {margin-top:50px;}
