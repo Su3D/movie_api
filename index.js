@@ -70,28 +70,33 @@ mongoose.set('useFindAndModify', false);
 /*
 * Returns a list of ALL movies to the user
 */
-app.get('/movies', passport.authenticate('jwt', { session: false }), function (req, res) {
+//, passport.authenticate('jwt', { session: false })
+app.get('/movies', function (req, res) {
   /*
   * @function GET /movies
   * @example response: JSON file, data of all movies:
   *[
   *   {
   *     "genre": {
-  *       "name": " ",
-  *       "description": " "
+  *       "type": "",
+  *       "description": ""
+  *     },
+  *     "rating": {
+  *       "type": "",
+  *       "description": ""
   *     },
   *     "director": {
-  *       "name": " ",
-  *       "bio": "
-  *       "birth": "1970",
+  *       "name": "",
+  *       "bio": ""
+  *       "birth": "",
   *       "death": ""
   *     },
   *     "_id": "",
   *     "movieId": "",
   *     "title": "",
-  *     "description": ".",
+  *     "description": "",
   *     "imagePath": "",
-  *     "featured":
+  *     "featured": ""
   *   },
   *   {},...
   *]
@@ -108,7 +113,8 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), function (r
 /*
 * Returns data about a single movie by title to the user
 */
-app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), function (req, res) {
+//, passport.authenticate('jwt', { session: false })
+app.get('/movies/:Title', function (req, res) {
   /*
 * @function GET /movies/:title
 * @param title {string} - movie title
@@ -117,21 +123,25 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), func
 *movie = [
 *   {
 *     "genre": {
-*       "name": " ",
-*       "description": " "
+*       "type": "",
+*       "description": ""
+*     },
+*     "rating": {
+*       "type": "",
+*       "description": ""
 *     },
 *     "director": {
-*       "name": " ",
-*       "bio": "
-*       "birth": "1970",
+*       "name": "",
+*       "bio": ""
+*       "birth": "",
 *       "death": ""
 *     },
 *     "_id": "",
 *     "movieId": "",
 *     "title": "",
-*     "description": ".",
+*     "description": "",
 *     "imagePath": "",
-*     "featured":
+*     "featured": ""
 *   }
 *]
 */
@@ -150,7 +160,8 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), func
 /*
 * Returns data about a genre description by name/title (e.g., “Thriller”)
 */
-app.get('/movies/:Title/Genre', passport.authenticate('jwt', { session: false }), function (req, res) {
+//, passport.authenticate('jwt', { session: false })
+app.get('/movies/:Title/Genre', function (req, res) {
   /*
   * @function GET /movies/:title
   * @param title {string} - movie title
@@ -159,21 +170,25 @@ app.get('/movies/:Title/Genre', passport.authenticate('jwt', { session: false })
   *movie = [
   *   {
   *     "genre": {
-  *       "name": " ",
-  *       "description": " "
+  *       "type": "",
+  *       "description": ""
+  *     },
+  *     "rating": {
+  *       "type": "",
+  *       "description": ""
   *     },
   *     "director": {
-  *       "name": " ",
-  *       "bio": "
-  *       "birth": "1970",
+  *       "name": "",
+  *       "bio": ""
+  *       "birth": "",
   *       "death": ""
   *     },
   *     "_id": "",
   *     "movieId": "",
   *     "title": "",
-  *     "description": ".",
+  *     "description": "",
   *     "imagePath": "",
-  *     "featured":
+  *     "featured": ""
   *   }
   *]
   */
@@ -195,7 +210,8 @@ app.get('/movies/:Title/Genre', passport.authenticate('jwt', { session: false })
 /*
 * Returns data about a director bio
 */
-app.get('/directors/:Name', passport.authenticate('jwt', { session: false }), function (req, res) {
+//, passport.authenticate('jwt', { session: false })
+app.get('/directors/:Name', function (req, res) {
   /*
   * @function GET /movies/directors/:name
   * @param title {string} name - movie director's name
@@ -204,7 +220,8 @@ app.get('/directors/:Name', passport.authenticate('jwt', { session: false }), fu
   *{
   *   "name": "",
   *   "bio": "",
-  *   "birth": ,
+  *   "birth": "",
+  *   "death": ""
   * }
   */
   Movies.findOne({
@@ -246,7 +263,7 @@ app.post('/users', function (req, res) {
   *   "username": "",
   *   "password": "",
   *   "email": "",
-  *   "birthday": "",
+  *   "birthday": ""
   * }
   */
   // Validation logic here for request
@@ -313,7 +330,7 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), fu
   *   "username": "",
   *   "password": "",
   *   "email": "",
-  *   "birthday": "",
+  *   "birthday": ""
   * }
   */
   // Validation logic here for request
@@ -451,6 +468,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
       res.status(500).send('Error: ' + err);
     });
 });
+
 
 // Serves documentation file
 app.get('/documentation', (req, res) => {
