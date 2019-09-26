@@ -33,7 +33,7 @@ const Users = Models.User;
 const app = express();
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors()); //CORS enabled for all origins
 //app.use(validator());
 var auth = require('./auth')(app);
 
@@ -68,59 +68,9 @@ mongoose.set('useFindAndModify', false);
 //MOVIE ENDPOINTS
 //////////////////
 /*
-* Returns a list of ALL movies to the user
-*/
-//, passport.authenticate('jwt', { session: false })
-app.get('/movies', passport.authenticate('jwt', { session: false }), function (req, res) {
-  /*
-  * @function GET /movies
-  * @example response: JSON file, data of all movies:
-  *[
-  *   {
-  *     "genre": {
-  *       "type": "",
-  *       "description": ""
-  *     },
-  *     "rating": {
-  *       "type": "",
-  *       "description": ""
-  *     },
-  *     "director": {
-  *       "name": "",
-  *       "bio": ""
-  *       "birth": "",
-  *       "death": ""
-  *     },
-  *     "_id": "",
-  *     "movieId": "",
-  *     "title": "",
-  *     "description": "",
-  *     "imagePath": "",
-  *     "featured": ""
-  *   },
-  *   {},...
-  *]
-  */
-  Movies.find()
-    .then(function (movies) {
-      res.status(201).json(movies)
-    })
-    .catch(function (err) {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
-/*
-* Returns data about a single movie by title to the user
-*/
-//, passport.authenticate('jwt', { session: false })
-app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), function (req, res) {
-  /*
-* @function GET /movies/:title
-* @param title {string} - movie title
-* @example requests:
-* @example response: JSON file with movie data:
-*movie = [
+* @function GET /movies
+* @example response: JSON file, data of all movies:
+*[
 *   {
 *     "genre": {
 *       "type": "",
@@ -142,104 +92,76 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), func
 *     "description": "",
 *     "imagePath": "",
 *     "featured": ""
-*   }
+*   },
+*   {},...
 *]
 */
-  Movies.findOne({
-    Title: req.params.Title
-  })
-    .then(function (movie) {
-      res.json(movie)
+//, passport.authenticate('jwt', { session: false })
+//returns data for all movies [GET]
+app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Movies.find()
+    .then(function (movies) {
+      res.status(201).json(movies)
     })
-    .catch(function (err) {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
+    .catch(function (error) {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
     });
 });
 
-/*
-* Returns data about a genre description by name/title (e.g., “Thriller”)
-*/
 //, passport.authenticate('jwt', { session: false })
-app.get('/movies/:Title/Genre', passport.authenticate('jwt', { session: false }), function (req, res) {
-  /*
-  * @function GET /movies/:title
-  * @param title {string} - movie title
-  * @example requests:
-  * @example response: JSON file with movie data:
-  *movie = [
-  *   {
-  *     "genre": {
-  *       "type": "",
-  *       "description": ""
-  *     },
-  *     "rating": {
-  *       "type": "",
-  *       "description": ""
-  *     },
-  *     "director": {
-  *       "name": "",
-  *       "bio": ""
-  *       "birth": "",
-  *       "death": ""
-  *     },
-  *     "_id": "",
-  *     "movieId": "",
-  *     "title": "",
-  *     "description": "",
-  *     "imagePath": "",
-  *     "featured": ""
-  *   }
-  *]
-  */
-  Movies.findOne({
-    Title: req.params.Title
-  })
+//returns data for a single movie (by title) [GET]
+app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Movies.findOne({ Title: req.params.Title })
     .then(function (movie) {
-      if (movie) {
-        res.status(201).send('The genre of ' + movie.Title + ' is ' + movie.Genre);
-      } else {
-        res.status(404).send('Movie with the title ' + req.params.Title + ' was not found.');
-      }
+      res.json(movie)
     })
-    .catch(function (err) {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
+    .catch(function (error) {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
     });
 });
-/*
-* Returns data about a director bio
-*/
-//, passport.authenticate('jwt', { session: false })
-app.get('/directors/:Name', passport.authenticate('jwt', { session: false }), function (req, res) {
-  /*
-  * @function GET /movies/directors/:name
-  * @param title {string} name - movie director's name
-  * @example request:
-  * @example JSON file, director's data:
-  *{
-  *   "name": "",
-  *   "bio": "",
-  *   "birth": "",
-  *   "death": ""
-  * }
-  */
-  Movies.findOne({
-    'Director.Name': req.params.Name
-  })
-    .then(function (director) {
-      res.json(director)
+
+//returns data for a single rating (by type) [GET]
+app.get('/movies/ratings/:Type', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Movies.findOne({ 'Rating.Type': req.params.Type })
+    .then(function (movies) {
+      res.json(movies.Rating)
     })
-    .catch(function (err) {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
+    .catch(function (error) {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
+    });
+});
+
+//, passport.authenticate('jwt', { session: false })
+//returns data for a single genre (by type) [GET]
+app.get('/movies/genres/:Type', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Movies.findOne({ 'Genre.Type': req.params.Type })
+    .then(function (movies) {
+      res.json(movies.Genre)
+    })
+    .catch(function (error) {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
+    });
+});
+
+//returns data for a single director (by name) [GET]
+app.get('/movies/directors/:Name', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Movies.findOne({ 'Director.Name': req.params.Name })
+    .then(function (movies) {
+      res.json(movies.Director)
+    })
+    .catch(function (error) {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
     });
 });
 
 //////////////////
 //USER ENDPOINTS
 //////////////////
-
 // For postman testing purposes, returns a list of all users
 // app.get('/users', function (req, res) {
 //   Users.find()
@@ -252,222 +174,208 @@ app.get('/directors/:Name', passport.authenticate('jwt', { session: false }), fu
 //   })
 // });
 
-/*
-* Allow new users to register
-*/
-app.post('/users', function (req, res) {
-  /*
-  * @function POST /users
-  * @example request body format JSON file:
-  *{
-  *   "username": "",
-  *   "password": "",
-  *   "email": "",
-  *   "birthday": ""
-  * }
-  */
-  // Validation logic here for request
-  req.checkBody('Username', 'Username is required').notEmpty();
-  req.checkBody('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric()
-  req.checkBody('Password', 'Password is required').notEmpty();
-  req.checkBody('Email', 'Email is required').notEmpty();
-  req.checkBody('Email', 'Email does not appear to be valid').isEmail();
+
+//allow new users to register for an account/profile [POST]
+/*JSON should be formatted:
+{
+ ID : Integer,
+ Username : String,
+ Password : String,
+ Email : String,
+ Birthday : Date
+}*/
+app.post("/users", function (req, res) {
+  req.checkBody("Username", "Username is required.").notEmpty();
+  req.checkBody("Username", "Username contains non alphanumeric characters - not allowed.").isAlphanumeric();
+  req.checkBody("Password", "Password is required").notEmpty();
+  req.checkBody("Email", "Email is required.").notEmpty();
+  req.checkBody("Email", "Email does not appear to be valid.").isEmail();
+
   // check the validation object for errors
   var errors = req.validationErrors();
+
   if (errors) {
-    return res.status(422).json({ errors: errors });
+    return res.status(422).json({
+      errors: errors
+    });
   }
 
-  var hashedPassword = Users.hashPassword(req.body.Password); // stores the hashed password
-  Users.findOne({ Username: req.body.Username })// Search to see if a user with the requested username already exists
+  var hashedPassword = Users.hashPassword(req.body.Password);
+  Users.findOne({
+    Username: req.body.Username
+  })
     .then(function (user) {
       if (user) {
-        //If the user is found, send a response that it already exists
-        return res.status(400).send(req.body.Username + ' already exists');
+        return res.status(400).send("This username already exists.");
       } else {
-        Users
-          .create({
-            Username: req.body.Username,
-            Password: hashedPassword,
-            Email: req.body.Email,
-            Birthday: req.body.Birthday
-          })
+        Users.create({
+          Username: req.body.Username,
+          Password: hashedPassword,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday
+        })
           .then(function (user) {
-            res.status(201).json(user)
+            res.status(201).json(user);
           })
           .catch(function (error) {
             console.error(error);
-            res.status(500).send('Error: ' + error);
-          })
+            res.status(500).send("Error: " + error);
+          });
       }
-    }).catch(function (error) {
-      console.error(error);
-      res.status(500).send('Error: ' + error);
-    });
-});
-
-// get specific user
-app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOne({ Username: req.params.Username })
-    .then((user) => {
-      res.status(201).json(user)
     })
-    .catch((error) => {
+    .catch(function (error) {
       console.error(error);
-      res.status(500).send('Error: ' + error);
+      res.status(500).send("Error: " + error);
     });
 });
 
-/*
-* Allow users to update their info (Username, Password, Email and Birthday)
-*/
-app.put('/users/:Username', passport.authenticate('jwt', { session: false }), function (req, res) {
-  /*
-  * @function PUT /users/:username
-  * @param username {string} username - username
-  * @example request body format JSON file:
-  *{
-  *   "username": "",
-  *   "password": "",
-  *   "email": "",
-  *   "birthday": ""
-  * }
-  */
-  // Validation logic here for request
-  req.checkBody('Username', 'Username is required').notEmpty();
-  req.checkBody('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric()
-  req.checkBody('Password', 'Password is required').notEmpty();
-  req.checkBody('Email', 'Email is required').notEmpty();
-  req.checkBody('Email', 'Email does not appear to be valid').isEmail();
-  // check the validation object for errors
-  var errors = req.validationErrors();
-  if (errors) {
-    return res.status(422).json({ errors: errors });
+
+//allow users to update their account/profile [put]
+/*JSON should be formatted:
+{
+ ID : Integer,
+ Username : String,
+ Password : String,
+ Email : String,
+ Birthday : Date
+}*/
+app.put("/users/:Username", passport.authenticate("jwt", {
+  session: false
+}),
+  function (req, res) {
+    req.checkBody("Username", "Username is required.").notEmpty();
+    req
+      .checkBody(
+        "Username",
+        "Username contains non alphanumeric characters - not allowed."
+      )
+      .isAlphanumeric();
+    req.checkBody("Password", "Password is required").notEmpty();
+    req.checkBody("Email", "Email is required.").notEmpty();
+    req.checkBody("Email", "Email does not appear to be valid.").isEmail();
+
+    // check the validation object for errors
+    var errors = req.validationErrors();
+
+    if (errors) {
+      return res.status(422).json({
+        errors: errors
+      });
+    }
+
+    var hashedPassword = Users.hashPassword(req.body.Password);
+    Users.update({
+      Username: req.params.Username
+    }, {
+      $set: {
+        Username: req.body.Username,
+        Password: hashedPassword,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday
+      }
+    }, {
+      new: true
+    }, // This line makes sure that the updated document is returned
+      function (err, updatedUser) {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error: " + err);
+        } else {
+          res.json(updatedUser);
+        }
+      }
+    );
   }
+);
 
-  // hash password of new User
-  let hashedPassword = Users.hashPassword(req.body.Password);
-
-  Users.update({
-    Username: req.params.Username
-  }, {
-    $set: {
-      Username: req.body.Username,
-      Password: hashedPassword,
-      Email: req.body.Email,
-      Birthday: req.body.Birthday
-    }
-  }, {
-    new: true
-  }, // This line makes sure that the updated document is returned
-    function (err, updatedUser) {
-      if (err) {
-        console.error(err);
-        res.status(500).send('Error: ' + err);
-      } else {
-        res.json(updatedUser)
+//Allows users to add a movie to their list of favorites
+app.post(
+  "/users/:Username/movies/:MovieID",
+  passport.authenticate("jwt", {
+    session: false
+  }),
+  function (req, res) {
+    Users.findOneAndUpdate({
+      Username: req.params.Username
+    }, {
+      $push: {
+        FavoriteMovies: req.params.MovieID
       }
+    }, {
+      new: true
+    }, // This line makes sure that the updated document is returned
+      function (err, updatedUser) {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error: " + err);
+        } else {
+          res.json(updatedUser);
+        }
+      }
+    );
+  }
+);
+
+//Allows users to remove a movie from their list of favorites
+app.delete(
+  "/users/:Username/movies/:MovieID",
+  passport.authenticate("jwt", {
+    session: false
+  }),
+  function (req, res) {
+    Users.findOneAndUpdate({
+      Username: req.params.Username
+    }, {
+      $pull: {
+        FavoriteMovies: req.params.MovieID
+      }
+    }, {
+      new: true
+    }, // This line makes sure that the updated document is returned
+      function (err, updatedUser) {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error: " + err);
+        } else {
+          res.json(updatedUser);
+        }
+      }
+    );
+  }
+);
+
+//Allows existing users to deregister by username
+app.delete(
+  "/users/:Username",
+  passport.authenticate("jwt", {
+    session: false
+  }),
+  function (req, res) {
+    Users.findOneAndRemove({
+      Username: req.params.Username
     })
-});
-
-
-/*
-* Allow users to add a movie to their list of favorites
-*/
-app.post('/users/:Username/FavoriteMovies/:MovieID', passport.authenticate('jwt', { session: false }), function (req, res) {
-  /*
-  * @function PUT /users/:username/favoritemovies/:id
-  * @param username {string} username - username
-  * @param id {string} id - user's id
-  * @example JSON file:
-  *{
-  *   "favoritemovies": [],
-  *   "_id": "",
-  *   "username": "",
-  *   "password": "",
-  *   "email": "",
-  *   "birthday": "",
-  *   "__v": 0
-  * }
-  */
-  Users.findOneAndUpdate({
-    Username: req.params.Username
-  }, {
-    $push: {
-      FavoriteMovies: req.params.MovieID
-    }
-  }, {
-    new: true
-  }, // This line makes sure that the updated document is returned
-    function (err, updatedUser) {
-      if (err) {
+      .then(function (user) {
+        if (!user) {
+          res
+            .status(400)
+            .send(req.params.Username + "'s user profile was not found");
+        } else {
+          res
+            .status(200)
+            .send(
+              req.params.Username +
+              "'s user profile was successfully deleted from CineStock."
+            );
+        }
+      })
+      .catch(function (err) {
         console.error(err);
-        res.status(500).send('Error: ' + err);
-      } else {
-        res.json(updatedUser)
-      }
-    })
-});
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
-/*
-*  Allow users to remove a movie from their list of favorites
-*/
-app.delete('/users/:Username/FavoriteMovies/:MovieID', passport.authenticate('jwt', { session: false }), function (req, res) {
-  /*
-  * @function DELETE /users/:username/favoritemovies/:id
-  * @param username {string} username - username
-  * @param id {string} id - movie's id
-  * @example  response:
-  *message:
-  *The account with the username: [username] is deleted.'
-  */
-  Users.findOneAndUpdate({
-    Username: req.params.Username
-  }, {
-    $pull: {
-      FavoriteMovies: req.params.MovieID
-    }
-  }, {
-    new: true
-  }, // This line makes sure that the updated document is returned
-    function (err, updatedUser) {
-      if (err) {
-        console.error(err);
-        res.status(500).send('Error: ' + err);
-      } else {
-        res.json(updatedUser)
-      }
-    }
-  )
-});
 
-/*
-* Allow users to delete profile
-*/
-app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), function (req, res) {
-  /*
-  * @function DELETE /users/:username
-  * @param username {string} username - username
-  * @example  response:
-  *message:
-  *The account with the username: [username] is deleted.'
-  */
-
-  Users.findOneAndRemove({
-    Username: req.params.Username
-  })
-    .then(function (user) {
-      if (!user) {
-        res.status(400).send(req.params.Username + ' was not found');
-      } else {
-        res.status(200).send(req.params.Username + ' was deleted.');
-      }
-    })
-    .catch(function (err) {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
 
 
 // Serves documentation file
@@ -486,8 +394,5 @@ var port = process.env.PORT || 3000;
 app.listen(port, '0.0.0.0', () => {
   console.log(`Listening on port ${port}`)
 });
-
-
-
 
 
