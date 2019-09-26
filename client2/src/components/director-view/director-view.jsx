@@ -12,11 +12,11 @@ import './director-view.scss';
 /* DirectorView */
 function DirectorView(props) {
   const { movies, directorName } = props;
-  const death = director.Death ? director.Death : "n/a";
 
   if (!movies || !movies.length) return null;
 
   const director = movies.find(movie => movie.Director.Name === directorName).Director;
+  const death = director.Death ? director.Death : "n/a";
 
   return (
     <div className="director-view">

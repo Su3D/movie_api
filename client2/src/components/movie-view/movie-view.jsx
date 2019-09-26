@@ -19,7 +19,7 @@ function MovieView(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    axios.post(`https://cf-movie-list-api.herokuapp.com/users/${localStorage.getItem('user')}/FavoriteMovies/${movie._id}`, {
+    axios.post(`https://cf-movie-list-api.herokuapp.com/users/${localStorage.getItem('user')}/movies/${movie._id}`, {
       Username: localStorage.getItem('user')
     }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
@@ -30,7 +30,7 @@ function MovieView(props) {
       })
       .catch(event => {
         console.log('error adding movie to list');
-        alert('Oops... Something went wrong!');
+        alert('Doh... Something went wrong!');
       });
   };
 
@@ -68,7 +68,7 @@ function MovieView(props) {
         <Link to={`/ratings/${movie.Rating.Type}`}><Button variant="outline-secondary">Rating</Button></Link>
       </div>
 
-      <Button variant="outline-info" size="sm" onClick={event => this.handleSubmit(event)}>Add to Favorites</Button>
+      <Button className="view-btn" variant="outline-info" size="sm" type="button" onClick={event => handleSubmit(event)}>Add to Favorites</Button>
       <Link to="/"><Button variant="outline-info" size="sm">Back to Movie List</Button></Link>
     </div>//movie-view
   );//return

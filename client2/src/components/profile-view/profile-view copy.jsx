@@ -40,7 +40,6 @@ export class ProfileView extends React.Component {
   //get user
   getUser(token) {
     let username = localStorage.getItem('user');
-    console.log("username: " + username);
     axios.get(`https://cf-movie-list-api.herokuapp.com/users/${username}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -53,7 +52,7 @@ export class ProfileView extends React.Component {
           birthday: response.data.Birthday,
           FavoriteMovies: response.data.FavoriteMovies
         });
-        console.log("email", this.state.email)
+        console.log("mai", this.state.email)
       })
       .catch(function (error) {
         console.log('errors', error);
@@ -90,7 +89,7 @@ export class ProfileView extends React.Component {
         this.getUser(localStorage.getItem('token'));
       })
       .catch(event => {
-        alert('Snap something went wrong while deleting this movie from favorite list');
+        alert('Oh dear, something went wrong while deleting this movie from your favorites list');
       });
   }
 
@@ -154,7 +153,7 @@ export class ProfileView extends React.Component {
         </div>
         <div className="birthday">
           <div className="label">Birthday:</div>
-          <div className="value">{birthday.substr(-24, 10)}</div>
+          <div className="value">{birthday}</div>
         </div>
         <div className="email">
           <div className="label">Email:</div>
@@ -214,5 +213,7 @@ export class ProfileView extends React.Component {
     );//return
   }//render
 }
+
+
 
 

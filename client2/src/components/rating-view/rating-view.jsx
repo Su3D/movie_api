@@ -1,6 +1,7 @@
 //import modules and files
 import React from 'react';
 import { connect } from 'react-redux';
+
 import { Link } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
@@ -9,11 +10,11 @@ import './rating-view.scss';
 
 /* RatingView */
 function RatingView(props) {
-  const { movies, ratingName } = props;
+  const { movies, ratingType } = props;
 
   if (!movies || !movies.length) return null;
 
-  const rating = movies.find(movie => movie.Rating.Name === ratingName).Rating;
+  const rating = movies.find(movie => movie.Rating.Type === ratingType).Rating;
 
   return (
     <div className="rating-view">

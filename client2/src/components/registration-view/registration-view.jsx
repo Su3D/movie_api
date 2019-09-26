@@ -1,7 +1,5 @@
-//import modules and files
 import React, { useState } from 'react';
 import axios from 'axios';
-
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
@@ -9,7 +7,6 @@ import { Link } from 'react-router-dom';
 
 import './registration-view.scss';
 
-/* RegistrationView */
 export function RegistrationView(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -29,9 +26,7 @@ export function RegistrationView(props) {
         console.log(data);
         window.open('/', '_self');
       })
-      .catch(event => {
-        console.log('error registering the user')
-      });
+
   };
 
   return (
@@ -75,5 +70,3 @@ export function RegistrationView(props) {
     </div>//registration-view
   );//return
 }
-
-

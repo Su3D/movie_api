@@ -14,6 +14,7 @@ import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
 import MovieView from '../movie-view/movie-view';
 import DirectorView from '../director-view/director-view';
+import RatingView from '../rating-view/rating-view';
 import GenreView from '../genre-view/genre-view';
 import { ProfileView } from '../profile-view/profile-view';
 
@@ -127,7 +128,9 @@ export class MainView extends React.Component {
 
           <Route exact path="/movies/:id" render={({ match }) => <MovieView movieId={match.params.id} />} />
 
-          <Route exact path="/genres/:name" render={({ match }) => <GenreView genreName={match.params.name} />} />
+          <Route exact path="/ratings/:type" render={({ match }) => <RatingView ratingType={match.params.type} />} />
+
+          <Route exact path="/genres/:type" render={({ match }) => <GenreView genreType={match.params.type} />} />
 
           <Route exact path="/directors/:name" render={({ match }) => <DirectorView directorName={match.params.name} />} />
 

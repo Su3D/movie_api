@@ -17,7 +17,7 @@ const uuid = require('uuid');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const cors = require('cors');
-//const validator = require('express-validator');
+const validator = require('express-validator');
 const path = require('path');
 
 
@@ -34,7 +34,7 @@ const app = express();
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(cors()); //CORS enabled for all origins
-//app.use(validator());
+app.use(validator());
 var auth = require('./auth')(app);
 
 //connect to mongo DB
@@ -229,6 +229,20 @@ app.post("/users", function (req, res) {
     });
 });
 
+app.get("/users/:Username",
+  function (req, res) {
+    Users.findOne({
+      Username: req.params.Username
+    })
+      .then(function (user) {
+        res.json(user);
+      })
+      .catch(function (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 //allow users to update their account/profile [put]
 /*JSON should be formatted:
