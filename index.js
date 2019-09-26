@@ -16,8 +16,8 @@ const bodyParser = require('body-parser');
 const uuid = require('uuid');
 const mongoose = require('mongoose');
 const passport = require('passport');
-//const cors = require('cors');
-//const validator = require('express-validator');
+const cors = require('cors');
+const validator = require('express-validator');
 const path = require('path');
 
 
@@ -33,8 +33,8 @@ const Users = Models.User;
 const app = express();
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
-//app.use(cors());
-//app.use(validator());
+app.use(cors());
+app.use(validator());
 var auth = require('./auth')(app);
 
 //connect to mongo DB
@@ -71,7 +71,7 @@ mongoose.set('useFindAndModify', false);
 * Returns a list of ALL movies to the user
 */
 //, passport.authenticate('jwt', { session: false })
-app.get('/movies', function (req, res) {
+app.get('/movies', passport.authenticate('jwt', { session: false }), function (req, res) {
   /*
   * @function GET /movies
   * @example response: JSON file, data of all movies:
@@ -114,7 +114,7 @@ app.get('/movies', function (req, res) {
 * Returns data about a single movie by title to the user
 */
 //, passport.authenticate('jwt', { session: false })
-app.get('/movies/:Title', function (req, res) {
+app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), function (req, res) {
   /*
 * @function GET /movies/:title
 * @param title {string} - movie title
@@ -161,7 +161,7 @@ app.get('/movies/:Title', function (req, res) {
 * Returns data about a genre description by name/title (e.g., “Thriller”)
 */
 //, passport.authenticate('jwt', { session: false })
-app.get('/movies/:Title/Genre', function (req, res) {
+app.get('/movies/:Title/Genre', passport.authenticate('jwt', { session: false }), function (req, res) {
   /*
   * @function GET /movies/:title
   * @param title {string} - movie title
@@ -211,7 +211,7 @@ app.get('/movies/:Title/Genre', function (req, res) {
 * Returns data about a director bio
 */
 //, passport.authenticate('jwt', { session: false })
-app.get('/directors/:Name', function (req, res) {
+app.get('/directors/:Name', passport.authenticate('jwt', { session: false }), function (req, res) {
   /*
   * @function GET /movies/directors/:name
   * @param title {string} name - movie director's name
