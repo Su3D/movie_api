@@ -17,7 +17,7 @@ const uuid = require('uuid');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const cors = require('cors');
-const validator = require('express-validator');
+//const validator = require('express-validator');
 const path = require('path');
 
 
@@ -34,7 +34,7 @@ const app = express();
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(cors());
-app.use(validator());
+//app.use(validator());
 var auth = require('./auth')(app);
 
 //connect to mongo DB
