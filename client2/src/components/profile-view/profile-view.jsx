@@ -131,9 +131,9 @@ export class ProfileView extends React.Component {
     let toggleButton = document.getElementById('toggleButton');
     form.classList.toggle('show-form');
     if (form.classList.contains('show-form')) {
-      toggleButton.innerHTML = 'CHANGE DATA &uarr;';
+      toggleButton.innerHTML = 'Update Profile Data &uarr;';
     } else {
-      toggleButton.innerHTML = 'CHANGE DATA &darr;';
+      toggleButton.innerHTML = 'Update Profile Data &darr;';
     }
   }
 
@@ -142,75 +142,68 @@ export class ProfileView extends React.Component {
     if (!userData) return null;
     return (
       <div className="profile-view">
-        <h1>Your Profile Data</h1>
+        <h2>Profile Data</h2>
         <div className="username">
-          <div className="label">Name:</div>
+          <div className="label">Name</div>
           <div className="value">{username}</div>
           {console.log("username in renders return: ", username)}
         </div>
         <div className="password">
-          <div className="label">Password:</div>
+          <div className="label">Password</div>
           <div className="value">******</div>
         </div>
         <div className="birthday">
-          <div className="label">Birthday:</div>
+          <div className="label">Birthday</div>
           <div className="value">{birthday.substr(-24, 10)}</div>
         </div>
         <div className="email">
-          <div className="label">Email:</div>
+          <div className="label">Email</div>
           <div className="value">{email}</div>
         </div>
         <div className="FavoriteMovies">
-          <div className="label">Favorite Movies:</div>
+          <div className="label">Favorite Movies</div>
           {FavoriteMovies.length === 0 &&
-            <div className="value">You don't have any favotite movie! </div>
+            <div className="value">You don't have any favorite movies.</div>
           }
           {FavoriteMovies.length > 0 &&
-            <div className="value">{FavoriteMovies.map(FavoriteMovies => (<p key={FavoriteMovies}>{JSON.parse(localStorage.getItem('movies')).find(movie => movie._id === FavoriteMovies).Title}<span onClick={(event) => this.deleteMovie(event, FavoriteMovies)}> [Remove]</span></p>))}</div>
+            <div className="value">{FavoriteMovies.map(FavoriteMovies => (<p key={FavoriteMovies}>{JSON.parse(localStorage.getItem('movies')).find(movie => movie._id === FavoriteMovies).Title}<span style={{ fontSize: '70%', cursor: 'pointer' }} onClick={(event) => this.deleteMovie(event, FavoriteMovies)}> [Remove from list.]</span></p>))}</div>
           }
 
           {console.log("FavoriteMovies in renders return: ", FavoriteMovies)}
         </div>
 
-        <Link to={'/'}>
-          <Button className="view-btn" variant="primary" type="button">
-            BACK
-          </Button>
-        </Link>
-        <Button className="view-btn" variant="primary" type="button" onClick={(event) => this.deleteUser(event)}>
-          DELETE
-        </Button>
-        <Button id="toggleButton" className="view-btn" variant="primary" type="button" onClick={() => this.toggleForm()}>
-          CHANGE DATA &darr;
-        </Button>
+
+        <Button id="toggleButton" className="view-btn" variant="primary" type="button" onClick={() => this.toggleForm()}>Change Profile Data &darr;</Button>
+        <Button className="view-btn" variant="primary" type="button" onClick={(event) => this.deleteUser(event)}>Delete Profile</Button>
+
 
         <Form className="changeDataForm">
-          <h2>Change Data</h2>
+          <h2>Update Profile Data</h2>
           <Form.Group controlId="formBasicUsername">
-            <Form.Label >Your Username</Form.Label>
+            <Form.Label >Username</Form.Label>
             <Form.Control type="text" name="usernameForm" onChange={event => this.handleChange(event)} placeholder="Enter Username" />
           </Form.Group>
 
           <Form.Group controlId="formBasicPassword">
-            <Form.Label>Your Password</Form.Label>
+            <Form.Label>Password</Form.Label>
             <Form.Control type="password" name="passwordForm" onChange={event => this.handleChange(event)} placeholder="Password" />
           </Form.Group>
 
           <Form.Group controlId="formBasicEmail">
-            <Form.Label>Your Email</Form.Label>
+            <Form.Label>Email</Form.Label>
             <Form.Control type="email" name="emailForm" onChange={event => this.handleChange(event)} placeholder="example@email.com" />
           </Form.Group>
 
           <Form.Group controlId="formBasicBirthday">
-            <Form.Label>Your Birthday</Form.Label>
-            <Form.Control type="date" name="birthdayForm" onChange={event => this.handleChange(event)} placeholder="dd.mm.yyyy" />
+            <Form.Label>Birthday</Form.Label>
+            <Form.Control type="date" name="birthdayForm" onChange={event => this.handleChange(event)} placeholder="dd/mm/yyyy" />
           </Form.Group>
 
-          <Button variant="primary" type="button" onClick={event => this.handleSubmit(event)} >
-            CHANGE!
-          </Button>
+          <Button variant="primary" type="button" onClick={event => this.handleSubmit(event)} >Update Profile</Button>
         </Form>
-      </div>
+
+        <p><Link to={'/'}><Button variant="outline-info" size="sm" type="button">Back to Movie List</Button></Link></p>
+      </div >
     );//return
   }//render
 }

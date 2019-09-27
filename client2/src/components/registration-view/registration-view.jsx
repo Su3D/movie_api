@@ -54,18 +54,14 @@ export function RegistrationView(props) {
         </Form.Group>
 
         <Form.Group>
-          <p>
-            *All fields are required
-      </p>
+          <p>*All fields are required.</p>
         </Form.Group>
 
-        <Button variant="primary" type="button" onClick={handleSubmit}>
-          SIGN IN
-        </Button>
+        <Button variant="primary" type="button" onClick={handleSubmit}>Register</Button>
 
-        <p>
-          <Link to={'/'}><span>Already Member? Login</span></Link>
-        </p>
+        <hr></hr>
+        <h3>Already a member?</h3>
+        <Link to={'/'}><Button variant="outline-primary" size="sm">Login</Button></Link>
       </Form>
     </div>//registration-view
   );//return

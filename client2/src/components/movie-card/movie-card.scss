@@ -1,3 +1,8 @@
+* {
+  box-sizing: border-box;
+  margin: 2%;
+}
+
 .movie-card {
   margin-top:25px;
 }
@@ -8,11 +13,6 @@
 
 .card-text {
   font-size:  90%;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 2%;
 }
 
 .card-body {
@@ -34,37 +34,6 @@
   flex-flow: column;
 }
 
-.flexbox {
-  position: absolute;
-  margin-right: 0%;
-  margin-left: 85%;
-}
 
 
-@keyframes favme-hover {
-  from {
-      font-size: 26px;
-  }
 
-  50% {
-      font-size: 28px;
-  }
-
-  100% {
-      font-size: 26px;
-  }
-}
-
-.favme {
-  font-size: 26px;
-  cursor: pointer;
-  color: #CBCDCE;
-
-  &.active {
-      color: #BD2099;
-  }
-
-  &:hover {
-      animation: favme-hover .3s;
-  }
-}

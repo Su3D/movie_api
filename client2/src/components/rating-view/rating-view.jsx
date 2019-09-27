@@ -18,6 +18,7 @@ function RatingView(props) {
 
   return (
     <div className="rating-view">
+      <h2>Rating</h2>
       <div className="rating-type rating-item">
         <div className="label">Type</div>
         <div className="value">{rating.Type}</div>
@@ -26,7 +27,7 @@ function RatingView(props) {
         <div className="label">Description</div>
         <div className="value">{rating.Description}</div>
       </div>
-      <Link to="/"><Button variant="outline-dark" size="sm">Back to Movie List</Button></Link>
+      <Link to={'/'}><Button variant="outline-info" size="sm">Back to Movie List</Button></Link>
     </div>
   );
 }

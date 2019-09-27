@@ -18,6 +18,8 @@ import RatingView from '../rating-view/rating-view';
 import GenreView from '../genre-view/genre-view';
 import { ProfileView } from '../profile-view/profile-view';
 
+import Button from 'react-bootstrap/Button';
+
 import './main-view.scss';
 
 export class MainView extends React.Component {
@@ -113,10 +115,8 @@ export class MainView extends React.Component {
         <div className="main-view">
           {user &&
             <div className="navbar">
-              <Link to={'/profile'}>
-                <button>My Profile</button>
-              </Link>
-              <button onClick={() => this.logOut()}>Logout</button>
+              <Link to={'/profile'}><Button variant="outline-dark">Profile</Button></Link>
+              <Button variant="outline-dark" onClick={() => this.logOut()}>Logout</Button>
             </div>
           }
 

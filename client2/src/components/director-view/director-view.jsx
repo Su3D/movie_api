@@ -20,6 +20,7 @@ function DirectorView(props) {
 
   return (
     <div className="director-view">
+      <h2>Director</h2>
       <div className="director-name director-item">
         <div className="label">Name</div>
         <div className="value">{director.Name}</div>
@@ -36,7 +37,7 @@ function DirectorView(props) {
         <div className="label">Died</div>
         <div className="value">{death}</div>
       </div>
-      <Link to="/"><Button variant="outline-dark" size="sm">Back to Movie List</Button></Link>
+      <Link to={'/'}><Button variant="outline-info" size="sm">Back to Movie List</Button></Link>
     </div>
   );
 }
