@@ -17,7 +17,7 @@ const uuid = require('uuid');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const cors = require('cors');
-const validator = require('express-validator');
+//const validator = require('express-validator');
 const path = require('path');
 
 
@@ -34,7 +34,7 @@ const app = express();
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(cors()); //CORS enabled for all origins
-app.use(validator());
+//app.use(validator());
 var auth = require('./auth')(app);
 
 //connect to mongo DB
@@ -184,123 +184,75 @@ app.get('/movies/directors/:Name', passport.authenticate('jwt', { session: false
  Email : String,
  Birthday : Date
 }*/
-app.post("/users", function (req, res) {
-  req.checkBody("Username", "Username is required.").notEmpty();
-  req.checkBody("Username", "Username contains non alphanumeric characters - not allowed.").isAlphanumeric();
-  req.checkBody("Password", "Password is required").notEmpty();
-  req.checkBody("Email", "Email is required.").notEmpty();
-  req.checkBody("Email", "Email does not appear to be valid.").isEmail();
-
-  // check the validation object for errors
-  var errors = req.validationErrors();
-
-  if (errors) {
-    return res.status(422).json({
-      errors: errors
-    });
-  }
-
-  var hashedPassword = Users.hashPassword(req.body.Password);
-  Users.findOne({
-    Username: req.body.Username
-  })
+app.post('/users', function (req, res) {
+  var hashedPassword = Users.hashPassword(req.body.Password); // stores the hashed password
+  Users.findOne({ Username: req.body.Username })// Search to see if a user with the requested username already exists
     .then(function (user) {
       if (user) {
-        return res.status(400).send("This username already exists.");
+        //If the user is found, send a response that it already exists
+        return res.status(400).send(req.body.Username + ' already exists');
       } else {
-        Users.create({
-          Username: req.body.Username,
-          Password: hashedPassword,
-          Email: req.body.Email,
-          Birthday: req.body.Birthday
-        })
+        Users
+          .create({
+            Username: req.body.Username,
+            Password: hashedPassword,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday
+          })
           .then(function (user) {
-            res.status(201).json(user);
+            res.status(201).json(user)
           })
           .catch(function (error) {
             console.error(error);
-            res.status(500).send("Error: " + error);
-          });
+            res.status(500).send('Error: ' + error);
+          })
       }
-    })
-    .catch(function (error) {
+    }).catch(function (error) {
       console.error(error);
-      res.status(500).send("Error: " + error);
+      res.status(500).send('Error: ' + error);
     });
 });
 
-app.get("/users/:Username",
-  function (req, res) {
-    Users.findOne({
-      Username: req.params.Username
+// get specific user
+app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Users.findOne({ Username: req.params.Username })
+    .then((user) => {
+      res.status(201).json(user)
     })
-      .then(function (user) {
-        res.json(user);
-      })
-      .catch(function (err) {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      });
-  }
-);
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
+    });
+});
 
-//allow users to update their account/profile [put]
-/*JSON should be formatted:
-{
- ID : Integer,
- Username : String,
- Password : String,
- Email : String,
- Birthday : Date
-}*/
-app.put("/users/:Username", passport.authenticate("jwt", {
-  session: false
-}),
-  function (req, res) {
-    req.checkBody("Username", "Username is required.").notEmpty();
-    req
-      .checkBody(
-        "Username",
-        "Username contains non alphanumeric characters - not allowed."
-      )
-      .isAlphanumeric();
-    req.checkBody("Password", "Password is required").notEmpty();
-    req.checkBody("Email", "Email is required.").notEmpty();
-    req.checkBody("Email", "Email does not appear to be valid.").isEmail();
+/**
+* Allow users to update their info (Username, Password, Email and Birthday)
+*/
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }), function (req, res) {
+  // hash password of new User
+  let hashedPassword = Users.hashPassword(req.body.Password);
 
-    // check the validation object for errors
-    var errors = req.validationErrors();
-
-    if (errors) {
-      return res.status(422).json({
-        errors: errors
-      });
+  Users.update({
+    Username: req.params.Username
+  }, {
+    $set: {
+      Username: req.body.Username,
+      Password: hashedPassword,
+      Email: req.body.Email,
+      Birthday: req.body.Birthday
     }
-
-    var hashedPassword = Users.hashPassword(req.body.Password);
-    Users.update({
-      Username: req.params.Username
-    }, {
-      $set: {
-        Username: req.body.Username,
-        Password: hashedPassword,
-        Email: req.body.Email,
-        Birthday: req.body.Birthday
+  }, {
+    new: true
+  }, // This line makes sure that the updated document is returned
+    function (err, updatedUser) {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      } else {
+        res.json(updatedUser)
       }
-    }, {
-      new: true
-    }, // This line makes sure that the updated document is returned
-      function (err, updatedUser) {
-        if (err) {
-          console.error(err);
-          res.status(500).send("Error: " + err);
-        } else {
-          res.json(updatedUser);
-        }
-      }
-    );
-  }
-);
+    })
+});
 
 //Allows users to add a movie to their list of favorites
 app.post(
